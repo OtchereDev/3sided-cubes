@@ -67,8 +67,8 @@ const Nominate = () => {
                   <path
                     d="M2 2L7 7L12 2"
                     stroke="#F70087"
-                    stroke-width="2"
-                    stroke-linecap="square"
+                    strokeWidth="2"
+                    strokeLinecap="square"
                   />
                 </svg>
               </div>

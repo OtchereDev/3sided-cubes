@@ -86,8 +86,8 @@ const options = [
           x2="17.5143"
           y2="15.7997"
           stroke="#F8F8F8"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     ),
