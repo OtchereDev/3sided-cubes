@@ -9,9 +9,10 @@ import Bg from "@/assets/images/lg/bg-l.png";
 interface IBaseLayout {
   children: React.ReactNode;
   title: string;
+  addBg?: boolean;
 }
 
-const BaseLayout: React.FC<IBaseLayout> = ({ children, title }) => {
+const BaseLayout: React.FC<IBaseLayout> = ({ children, title, addBg }) => {
   const pageTitle = `3 sided cube - ${title}`;
 
   return (
@@ -20,7 +21,11 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children, title }) => {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <main className="lg:bg-primaryGradient  w-full pt-[5.3rem] lg:relative ">
+      <main
+        className={`lg:bg-primaryGradient  w-full pt-[5.3rem] lg:relative ${
+          addBg && "bg-primaryGradient"
+        } `}
+      >
         <Image
           src={Bg}
           alt="background"
