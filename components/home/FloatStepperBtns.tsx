@@ -16,7 +16,7 @@ const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
   confirmText,
 }) => {
   return (
-    <div className="fixed bottom-0 left-0 flex w-full items-center justify-center gap-4 bg-white py-5 shadow-strong lg:hidden">
+    <div className="fixed bottom-0 left-0 z-10 flex w-full items-center justify-center gap-4 bg-white py-5 shadow-strong lg:hidden">
       {currentStep > 0 && (
         <Link className="block w-[30%]" href={prevLink ?? "#"}>
           <Button
