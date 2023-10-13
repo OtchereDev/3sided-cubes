@@ -3,7 +3,8 @@ import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-1.png";
 import ImgLg from "@/assets/images/lg/img-1.png";
 import Button from "@/components/shared/Button";
-import FloatStepperBtns from "@/components/shared/FloatStepperBtns";
+import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -30,18 +31,20 @@ export default function Home() {
             title.
           </p>
           <div className="mt-7  hidden justify-center lg:flex">
-            <Button
-              bg="bg-black"
-              variant="solid"
-              borderColor="border-black"
-              text="GET STARTED"
-              color="text-white"
-              className="mx-auto px-[92px] font-primary font-bold"
-            />
+            <Link href={"/nominate"}>
+              <Button
+                bg="bg-black"
+                variant="solid"
+                borderColor="border-black"
+                text="GET STARTED"
+                color="text-white"
+                className="mx-auto px-[92px] font-primary font-bold"
+              />
+            </Link>
           </div>
         </div>
       </div>
-      <FloatStepperBtns currentStep={0} />
+      <FloatStepperBtns nextLink="/nominate" currentStep={0} />
     </BaseLayout>
   );
 }
