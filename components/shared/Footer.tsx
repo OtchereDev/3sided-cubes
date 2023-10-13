@@ -39,7 +39,7 @@ const socials = [
 
 const Footer = () => {
   return (
-    <div className="mt-32 bg-black px-7 py-7 text-white lg:px-32 lg:py-8">
+    <div className=" relative bg-black px-7 py-7 pb-32 text-white lg:px-32 lg:py-8">
       <div className="border-b-2 pb-5">
         <Image
           src={Logo}
