@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
-interface IButton {
+interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   bg: string;
   color: string;
   text: string;
@@ -8,31 +8,29 @@ interface IButton {
   borderColor: string;
   className?: string;
   disabled?: boolean;
-  onClick?: () => void;
 }
 
-const Button: React.FC<IButton> = ({
-  text,
-  variant,
-  bg,
-  borderColor,
-  color,
-  className,
-  disabled,
-  onClick,
-}) => {
-  return (
-    <button
-      onClick={() => onClick && onClick()}
-      className={`${
-        variant == "solid" ? (disabled ? "bg-grey-mid" : bg) : ""
-      } border-2 ${
-        disabled ? "border-grey-mid" : borderColor
-      } py-3 ${color} ${className}`}
-    >
-      {text}
-    </button>
-  );
-};
+const Button = React.forwardRef<HTMLButtonElement, IButton>(
+  (
+    { text, variant, bg, borderColor, color, className, disabled, ...rest },
+    ref,
+  ) => {
+    return (
+      <button
+        ref={ref}
+        className={`${
+          variant == "solid" ? (disabled ? "bg-grey-mid" : bg) : ""
+        } border-2 ${
+          disabled ? "border-grey-mid" : borderColor
+        } py-3 ${color} ${className}`}
+        {...rest}
+      >
+        {text}
+      </button>
+    );
+  },
+);
+
+Button.displayName = "Button";
 
 export default Button;

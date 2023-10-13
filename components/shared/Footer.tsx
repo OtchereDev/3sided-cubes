@@ -1,38 +1,34 @@
-import Image from "next/image";
 import React from "react";
-import Logo from "@/assets/svgs/logo-lg.svg";
 import Location from "./Location";
-import Twitter from "@/assets/svgs/socials/twitter.svg";
-import IG from "@/assets/svgs/socials/instagram.svg";
-import FB from "@/assets/svgs/socials/facebook.svg";
-import LinkedIn from "@/assets/svgs/socials/linkedin.svg";
-import Youtube from "@/assets/svgs/socials/youtube.svg";
+import LogoLg from "@/assets/svgs/logo-lg.svg";
 import Link from "next/link";
+import { Facebook, Instagram, LinkedIn, Twitter, Youtube } from "./icons";
+import Image from "next/image";
 
 const socials = [
   {
     name: "twitter",
-    svg: Twitter,
+    svg: <Twitter className="socials" />,
     link: "",
   },
   {
     name: "instagram",
-    svg: IG,
+    svg: <Instagram className="socials" />,
     link: "",
   },
   {
     name: "facebook",
-    svg: FB,
+    svg: <Facebook className="socials" />,
     link: "",
   },
   {
     name: "linkedin",
-    svg: LinkedIn,
+    svg: <LinkedIn className="socials" />,
     link: "",
   },
   {
     name: "youtube",
-    svg: Youtube,
+    svg: <Youtube className="socials" />,
     link: "",
   },
 ];
@@ -42,9 +38,9 @@ const Footer = () => {
     <div className=" relative bg-black px-7 py-7 pb-32 text-white lg:px-32 lg:py-8">
       <div className="border-b-2 pb-5">
         <Image
-          src={Logo}
+          src={LogoLg}
           alt="logo"
-          className="mx-auto w-8/12 lg:mx-0 lg:w-auto"
+          className="mx-auto w-8/12 !block lg:mx-0 lg:w-auto "
         />
       </div>
 
@@ -77,11 +73,7 @@ const Footer = () => {
           <div className="mt-2 flex gap-4">
             {socials.map((social) => (
               <Link key={social.name} href={social.link}>
-                <Image
-                  src={social.svg}
-                  alt={social.name}
-                  className="h-[20px] w-[20px] lg:h-[24px] lg:w-[24px]"
-                />
+                {social.svg}
               </Link>
             ))}
           </div>

@@ -3,7 +3,7 @@ import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-1.png";
 import ImgLg from "@/assets/images/lg/img-1.png";
 import Button from "@/components/shared/Button";
-import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import Link from "next/link";
 
 export default function Home() {

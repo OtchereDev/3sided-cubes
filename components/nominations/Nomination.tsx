@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SharedModal from "../shared/SharedModal";
+import Modal from "../shared/Modal";
 
 interface INomination {
   isClosed?: boolean;
@@ -21,17 +21,12 @@ const Nomination: React.FC<INomination> = ({ isClosed }) => {
             </p>
           </div>
         </td>
-        <td className=" hidden px-6 py-6 font-secondary lg:table-cell">
-          21/10/23
-        </td>
-        <td className=" hidden px-6 py-6 font-secondary lg:table-cell">
-          {" "}
-          29/10/23
-        </td>
-        <td className=" hidden px-6 py-6 font-secondary lg:table-cell">
+        <td className=" hideable-table-column">21/10/23</td>
+        <td className=" hideable-table-column"> 29/10/23</td>
+        <td className=" hideable-table-column">
           Lorem ipsum dolor sit amet, consecet desu...
         </td>
-        <td className=" hidden px-6 py-6 font-secondary lg:table-cell">Fair</td>
+        <td className=" hideable-table-column">Fair</td>
         <td>
           <div className="flex items-center justify-between  px-6 py-6">
             <div className="flex gap-4">
@@ -73,7 +68,7 @@ const Nomination: React.FC<INomination> = ({ isClosed }) => {
           </div>
         </td>
       </tr>
-      <SharedModal
+      <Modal
         isOpen={isDeleteModalOpen}
         onClose={() => {
           setIsDeleteModalOpen(false);

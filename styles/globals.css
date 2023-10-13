@@ -7,6 +7,18 @@
   transition: max-height 0.3s;
 }
 
+@layer components {
+  .socials {
+    @apply h-[20px] w-[20px] lg:h-[24px] lg:w-[24px];
+  }
+  .hidable-table-cell {
+    @apply hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell;
+  }
+  .hideable-table-column {
+    @apply hidden px-6 py-6 font-secondary lg:table-cell;
+  }
+}
+
 .radioCtn {
   display: block;
   position: relative;

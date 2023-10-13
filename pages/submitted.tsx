@@ -1,4 +1,4 @@
-import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import BaseLayout from "@/layouts/BaseLayout";
 import React from "react";
 import Image from "next/image";
@@ -6,7 +6,7 @@ import ImgSm from "@/assets/images/sm/img-6.png";
 import ImgLg from "@/assets/images/lg/img-6.png";
 
 import Button from "@/components/shared/Button";
-import FloatingCreateBtn from "@/components/home/FloatingCreateBtn";
+import FloatingCreateBtn from "@/components/form-process/FloatingCreateBtn";
 import Link from "next/link";
 
 const Submitted = () => {

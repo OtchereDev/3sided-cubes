@@ -1,12 +1,12 @@
-import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import BaseLayout from "@/layouts/BaseLayout";
 import React from "react";
 import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-5.png";
 import ImgLg from "@/assets/images/lg/img-5.png";
-import FormStepperBtn from "@/components/home/FormStepperBtn";
-import FormStepper from "@/components/home/FormStepper";
-import NominationQA from "@/components/home/NominationQA";
+import FormStepperBtn from "@/components/form-process/FormStepperBtn";
+import FormStepper from "@/components/form-process/FormStepper";
+import NominationQA from "@/components/form-process/NominationQA";
 
 const Review = () => {
   return (

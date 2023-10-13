@@ -1,4 +1,4 @@
-import FloatingCreateBtn from "@/components/home/FloatingCreateBtn";
+import FloatingCreateBtn from "@/components/form-process/FloatingCreateBtn";
 import Nomination from "@/components/nominations/Nomination";
 import Button from "@/components/shared/Button";
 import BaseLayout from "@/layouts/BaseLayout";
@@ -50,28 +50,16 @@ const MyNomination = () => {
                 >
                   NOMINEE
                 </th>
-                <th
-                  scope="col"
-                  className="hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell"
-                >
+                <th scope="col" className="">
                   DATE SUBMITTED
                 </th>
-                <th
-                  scope="col"
-                  className="hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell"
-                >
+                <th scope="col" className="hidable-table-cell ">
                   CLOSING DATE
                 </th>
-                <th
-                  scope="col"
-                  className="hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell"
-                >
+                <th scope="col" className="hidable-table-cell ">
                   REASON
                 </th>
-                <th
-                  scope="col"
-                  className="hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell"
-                >
+                <th scope="col" className="hidable-table-cell ">
                   PROCESS
                 </th>
                 <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">

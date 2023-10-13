@@ -1,14 +1,14 @@
 import React from "react";
 import Button from "@/components/shared/Button";
-import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import BaseLayout from "@/layouts/BaseLayout";
 import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-4.png";
 import ImgLg from "@/assets/images/lg/img-4.png";
-import FormStepperBtn from "@/components/home/FormStepperBtn";
-import FormStepper from "@/components/home/FormStepper";
-import FairnessMobileOption from "@/components/home/FairnessMobileOption";
-import FairnessLgOption from "@/components/home/FairnessLgOption";
+import FormStepperBtn from "@/components/form-process/FormStepperBtn";
+import FormStepper from "@/components/form-process/FormStepper";
+import FairnessMobileOption from "@/components/form-process/FairnessMobileOption";
+import FairnessLgOption from "@/components/form-process/FairnessLgOption";
 
 const options = [
   {
