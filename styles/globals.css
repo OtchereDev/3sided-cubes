@@ -1,4 +1,130 @@
-@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.accordion-item-content {
+  transition: max-height 0.3s;
+}
+
+.radioCtn {
+  display: block;
+  position: relative;
+
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.radioCtn input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radioCtn .checkmark {
+  position: relative;
+  height: 22px;
+  width: 22px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: solid 2px #5b5b5b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioCtn:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.radioCtn input:checked ~ .checkmark {
+  background-color: white;
+  border-color: #f70087;
+}
+
+.radioCtn .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.radioCtn input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radioCtn .checkmark:after {
+  /* top: 9px;
+  left: 9px; */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #f70087;
+}
+
+.slider::-webkit-slider-thumb {
+  width: 25px;
+  height: 25px;
+  background: #04aa6d;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #04aa6d;
+  cursor: pointer;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+
+  height: 8px;
+  background: #c3c3c3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1;
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #f40256;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: #f40256;
+  cursor: pointer;
+}
+
+.slider::-moz-range-progress {
+  background-color: #f40256;
+}
+.slider::-moz-range-track {
+  background-color: #f40256;
+}
+.slider::-ms-fill-lower {
+  background-color: #f40256;
+}
+.slider::-ms-fill-upper {
+  /* background-color: #f40256; */
+}
