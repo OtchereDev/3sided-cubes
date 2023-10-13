@@ -162,7 +162,7 @@ const Fairness = () => {
             </div>
 
             <div className="hidden lg:mx-20 lg:block">
-              //TODO: fix slider to have background color
+              {/* //TODO: fix slider to have background color */}
               <input
                 type="range"
                 min="0"
