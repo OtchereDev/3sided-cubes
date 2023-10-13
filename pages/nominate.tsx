@@ -1,27 +1,51 @@
-import Button from "@/components/shared/Button";
-import FloatStepperBtns from "@/components/home/FloatStepperBtns";
+import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import BaseLayout from "@/layouts/BaseLayout";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-2.png";
 import ImgLg from "@/assets/images/lg/img-2.png";
-import FormStepperBtn from "@/components/home/FormStepperBtn";
+import FormStepperBtn from "@/components/form-process/FormStepperBtn";
+import FormStepper from "@/components/form-process/FormStepper";
+
+import Select from "@/components/shared/Select";
 import { useRouter } from "next/router";
-import FormStepper from "@/components/home/FormStepper";
-import SharedModal from "@/components/shared/SharedModal";
+import Modal from "@/components/shared/Modal";
 
 const Nominate = () => {
-  const contentRef = useRef<any>();
-  const [isOpen, setIsOpen] = useState(false);
+  const [unsavedChanges, setUnsavedChanges] = useState(true);
+  const router = useRouter();
+  const isAbortModalOpen = useRef(false);
+  const [allowRouting, setAllowingRouting] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      contentRef.current.style.maxHeight =
-        contentRef.current.scrollHeight + "px";
-    } else if (!isOpen && contentRef.current) {
-      contentRef.current.style.maxHeight = 0 + "px";
-    }
-  }, [isOpen]);
+    const warningText =
+      "You have unsaved changes - are you sure you wish to leave this page?";
+    const handleWindowClose = (e: BeforeUnloadEvent) => {
+      if (!unsavedChanges) return;
+      e.preventDefault();
+      isAbortModalOpen.current = true;
+      // return;
+      return (e.returnValue = warningText);
+    };
+    const handleBrowseAway = () => {
+      if (!unsavedChanges) return;
+      isAbortModalOpen.current = true;
+      if (window.confirm(warningText)) return;
+      console.log(router.events);
+      router.events?.emit("routeChangeError", "Routing Aborted", "/nominate", {
+        shallow: false,
+      });
+      throw "routeChange aborted.";
+    };
+    window.addEventListener("beforeunload", handleWindowClose);
+    router.events.on("routeChangeStart", handleBrowseAway);
+    return () => {
+      window.removeEventListener("beforeunload", handleWindowClose);
+      router.events.off("routeChangeStart", handleBrowseAway);
+    };
+  }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
+
+  console.log("Iwas set to true :", isAbortModalOpen.current);
 
   return (
     <BaseLayout title="Home">
@@ -51,62 +75,27 @@ const Nominate = () => {
               <span className=" text-primary-pink">*</span> Cube’s name
             </p>
 
-            <div className="mt-3 lg:w-[60%]">
-              <div
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex cursor-pointer items-center justify-between border border-grey-mid px-3 py-3"
-              >
-                <p className="font-secondary">Select Option</p>
-                <svg
-                  width="14"
-                  height="9"
-                  viewBox="0 0 14 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2 2L7 7L12 2"
-                    stroke="#F70087"
-                    strokeWidth="2"
-                    strokeLinecap="square"
-                  />
-                </svg>
-              </div>
-              <div
-                ref={contentRef}
-                className={` accordion-item-content max-h-0 overflow-hidden bg-grey-light`}
-              >
-                <div
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="border-b-2 border-white px-3 py-3 font-secondary"
-                >
-                  <p>Select Option</p>
-                </div>
-                <div
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="border-b-2 border-white px-3 py-3 font-secondary"
-                >
-                  <p>Select Option</p>
-                </div>
-                <div
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="border-b-2 border-white px-3 py-3 font-secondary"
-                >
-                  <p>Select Option</p>
-                </div>
-                <div
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="border-b-2 border-white px-3 py-3 font-secondary"
-                >
-                  <p>Select Option</p>
-                </div>
-              </div>
-            </div>
+            <Select
+              options={[
+                { value: "", text: "Select an Option" },
+                { value: "1", text: "Select an Option" },
+              ]}
+              containerClassName="mt-3 lg:w-[60%]"
+            />
           </div>
           <FormStepperBtn prevLink="/" nextLink="/describe" />
         </div>
       </div>
       <FloatStepperBtns prevLink="/" nextLink="/describe" currentStep={1} />
+      <Modal
+        isOpen={isAbortModalOpen.current}
+        onClose={() => {
+          // setIsAbortModalOpen(false);
+        }}
+        confirmMessage="If you leave this page, you will lose any progress made."
+        title="Yes, leave page"
+        btnText="yes, delete"
+      />
     </BaseLayout>
   );
 };
