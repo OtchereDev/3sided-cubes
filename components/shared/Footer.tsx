@@ -76,7 +76,7 @@ const Footer = () => {
           <p className="font-primary text-xs font-bold ">Get social</p>
           <div className="mt-2 flex gap-4">
             {socials.map((social) => (
-              <Link href={social.link}>
+              <Link key={social.name} href={social.link}>
                 <Image
                   src={social.svg}
                   alt={social.name}

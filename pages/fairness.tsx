@@ -157,7 +157,11 @@ const Fairness = () => {
           <div className="mt-8 lg:mt-8">
             <div className="lg:hidden">
               {options.map((option) => (
-                <FairnessMobileOption name={option.name} svg={option.svg} />
+                <FairnessMobileOption
+                  key={option.name}
+                  name={option.name}
+                  svg={option.svg}
+                />
               ))}
             </div>
 
@@ -173,7 +177,11 @@ const Fairness = () => {
               />
               <div className="mt-4 flex justify-between">
                 {options.map((option) => (
-                  <FairnessLgOption name={option.name} svg={option.svg} />
+                  <FairnessLgOption
+                    key={option.name}
+                    name={option.name}
+                    svg={option.svg}
+                  />
                 ))}
               </div>
             </div>
