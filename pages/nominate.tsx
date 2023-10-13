@@ -6,10 +6,10 @@ import ImgSm from "@/assets/images/sm/img-2.png";
 import ImgLg from "@/assets/images/lg/img-2.png";
 import FormStepperBtn from "@/components/form-process/FormStepperBtn";
 import FormStepper from "@/components/form-process/FormStepper";
-
 import Select from "@/components/shared/Select";
 import { useRouter } from "next/router";
 import Modal from "@/components/shared/Modal";
+import { useFormContext } from "@/contexts/TestContext";
 
 const Nominate = () => {
   const [unsavedChanges, setUnsavedChanges] = useState(true);
@@ -45,7 +45,7 @@ const Nominate = () => {
     };
   }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
 
-  console.log("Iwas set to true :", isAbortModalOpen.current);
+  const { formValues, setValue, trigger, errors } = useFormContext();
 
   return (
     <BaseLayout title="Home">
@@ -77,10 +77,16 @@ const Nominate = () => {
 
             <Select
               options={[
-                { value: "", text: "Select an Option" },
-                { value: "1", text: "Select an Option" },
+                { value: "2", text: "Derek" },
+                { value: "1", text: "Oliver" },
               ]}
               containerClassName="mt-3 lg:w-[60%]"
+              onBlur={() => {
+                trigger("nominee_id");
+              }}
+              error={errors.nominee_id?.message}
+              value=""
+              // onChange={}
             />
           </div>
           <FormStepperBtn prevLink="/" nextLink="/describe" />
