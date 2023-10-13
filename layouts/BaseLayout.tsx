@@ -4,7 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
-// import Bg from "@/assets/images/lg/bg-l.png";
+import Bg from "@/assets/images/lg/bg-l.png";
 
 interface IBaseLayout {
   children: React.ReactNode;
@@ -21,8 +21,8 @@ const BaseLayout: React.FC<IBaseLayout> = ({ children, title }) => {
         <title>{pageTitle}</title>
       </Head>
       <main className="lg:bg-primaryGradient  w-full pt-[5.3rem] lg:relative ">
-        <img
-          src={"/bg-l.png"}
+        <Image
+          src={Bg}
           alt="background"
           className="absolute left-0 top-11  hidden w-full lg:block"
         />
