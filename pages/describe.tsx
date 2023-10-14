@@ -34,12 +34,12 @@ const Describe = () => {
             </span>{" "}
             because...
           </h2>
-          <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
+          <p className="mt-3 text-left font-secondary text-[#444444] lg:mt-3 lg:w-[75%]">
             Please let us know why you think this cube deserves the ‘cube of the
             month’ title 🏆⭐
           </p>
 
-          <div className="mt-8 lg:mt-5">
+          <div className="mt-6 lg:mt-12">
             <p className="font-bold">
               <span className=" text-primary-pink">*</span> Reasoning
             </p>

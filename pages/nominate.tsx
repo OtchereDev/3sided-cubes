@@ -77,12 +77,12 @@ const Nominate = () => {
           <h2 className="text-left font-primary text-2xl font-bold uppercase">
             I’d like to nominate...
           </h2>
-          <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
+          <p className="mt-3 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
             Please select a cube who you feel has done something honourable this
             month or just all round has a great work ethic.
           </p>
 
-          <div className="mt-8 lg:mt-5">
+          <div className="mt-8 lg:mt-12">
             <p className="font-bold">
               <span className=" text-primary-pink">*</span> Cube’s name
             </p>

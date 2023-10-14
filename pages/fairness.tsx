@@ -157,12 +157,12 @@ const Fairness = () => {
           <h2 className="text-left font-primary text-2xl font-bold uppercase lg:w-[80%]">
             IS HOW WE CURRENTLY RUN CUBE OF THE MONTH FAIR?
           </h2>
-          <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
+          <p className="mt-3 text-left font-secondary text-[#444444] lg:mt-3 lg:w-[75%]">
             As you know, out the nominees chosen, we spin a wheel to pick the
             cube of the month. What’s your opinion on this method?
           </p>
 
-          <div className="mt-8 lg:mt-8">
+          <div className="mt-6 lg:mt-12">
             <div className="lg:hidden">
               {options.map((option) => (
                 <FairnessMobileOption
@@ -176,7 +176,7 @@ const Fairness = () => {
 
             <div className="hidden lg:mx-20 lg:block">
               <FairnessRangeSelector />
-              <div className="mt-4 flex justify-between">
+              <div className="mt-8 flex justify-between">
                 {options.map((option) => (
                   <FairnessLgOption
                     key={option.value}

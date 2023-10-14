@@ -47,12 +47,12 @@ const Review = () => {
           <h2 className="mx-auto w-[70%] text-center font-primary text-3xl font-bold uppercase leading-[48px] lg:w-full">
             nomination overview
           </h2>
-          <p className="mt-5 text-center font-secondary text-[#444444] lg:mx-auto lg:mt-5 lg:w-[75%]">
+          <p className="mt-5 text-center font-secondary text-[#444444] lg:mx-auto lg:mt-3 lg:w-[75%]">
             Thank you for taking the time to nominate a fellow cube. Please
             check your answers before submitting.
           </p>
 
-          <div className="mt-8 lg:mt-5">
+          <div className="mt-8 lg:mt-12">
             <NominationQA
               question="Cube’s Name"
               answer={formValues.cubeName as string}
