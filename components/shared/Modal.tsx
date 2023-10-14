@@ -7,6 +7,8 @@ interface ISharedModal {
   title: string;
   confirmMessage: string;
   btnText: string;
+  isLoading?: boolean;
+  onClick?: () => Promise<void> | void;
 }
 
 const Modal: React.FC<ISharedModal> = ({
@@ -15,6 +17,8 @@ const Modal: React.FC<ISharedModal> = ({
   title,
   confirmMessage,
   btnText,
+  isLoading,
+  onClick,
 }) => {
   useEffect(() => {
     if (isOpen) {
@@ -34,7 +38,7 @@ const Modal: React.FC<ISharedModal> = ({
         <div
           className="fixed inset-0 bg-black bg-opacity-70 transition-opacity"
           aria-hidden="true"
-          onClick={onClose}
+          onClick={() => !isLoading && onClose()}
         ></div>
 
         <span
@@ -59,6 +63,9 @@ const Modal: React.FC<ISharedModal> = ({
               borderColor="border-black"
               text={btnText}
               className="mb-3 w-full border-2 font-bold uppercase"
+              disabled={isLoading}
+              isLoading={isLoading}
+              onClick={onClick}
             />
             <Button
               variant="outline"
@@ -68,6 +75,7 @@ const Modal: React.FC<ISharedModal> = ({
               text="Cancel"
               className="w-full border-2 font-bold uppercase"
               onClick={onClose}
+              disabled={isLoading}
             />
           </div>
         </div>
