@@ -33,6 +33,11 @@ import {
   RefetchQueryFilters,
   QueryObserverResult,
 } from "@tanstack/react-query";
+import {
+  clearFromLocalStorage,
+  getFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/localStorageUtils";
 
 export type FormValues = {
   nominee_id: string;
@@ -163,7 +168,7 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
           router.push(successUrl);
         }
       } catch (error: any) {
-        toast(error.stack.message);
+        toast.error(error.stack.message);
       }
     });
 
@@ -186,20 +191,16 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
 
   const formValues = watch();
 
-  const setDataToLocalStorage = () => {
-    const storageData = JSON.stringify(formValues);
-    localStorage.setItem("3sidedcubes", storageData);
-  };
-  const getDataFromLocalStorage = () => {
-    const data = localStorage.getItem("3sidedcubes");
-    if (data) {
-      return JSON.parse(data) as FormValues;
-    }
-    return { nominee_id: "", reason: "", process: "", cubeName: "" };
-  };
-  const clearDataFromLocalStorage = () => {
-    localStorage.removeItem("3sidedcubes");
-  };
+  const setDataToLocalStorage = () =>
+    setToLocalStorage("3sidedcubes", formValues);
+  const getDataFromLocalStorage = () =>
+    getFromLocalStorage("3sidedcubes", {
+      nominee_id: "",
+      reason: "",
+      process: "",
+      cubeName: "",
+    });
+  const clearDataFromLocalStorage = () => clearFromLocalStorage("3sidedcubes");
 
   useEffect(() => {
     const data = getDataFromLocalStorage();

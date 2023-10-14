@@ -14,8 +14,6 @@ import {
   QueryObserverResult,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useRouter } from "next/router";
-import { useFormContext } from "./FormContext";
 
 export interface INominationContext {
   nominees: Nominee["data"];
@@ -62,7 +60,7 @@ const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
         await refetch();
       }
     } catch (error: any) {
-      toast(error.stack.message);
+      toast.error(error.stack.message);
     }
   };
 

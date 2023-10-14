@@ -3,12 +3,12 @@ import Button from "@/components/shared/Button";
 import FormLabel from "@/components/shared/FormLabel";
 import AuthLayout from "@/layouts/AuthLayout";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { LogoLg } from "@/components/shared/icons";
 import Link from "next/link";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const loginSchema = yup
   .object({
@@ -32,7 +32,7 @@ interface ILoginData {
 }
 
 const Login = () => {
-  const [isLoading, setIsloading] = useState(false);
+  const { login, isLoginLoading } = useAuthContext();
   const {
     register,
     formState: { errors },
@@ -41,26 +41,9 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
-  const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsloading(true);
-    const req = await fetch("/signup/api", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-      }),
-    });
-
-    const res = await req.json();
-    setIsloading(false);
-    if (req.ok) {
-      router.push("/status?status=success");
-    } else {
-      router.push(`/status?status=error&message=${res.error.join(", ")}`);
-    }
+    await login(data);
   });
   return (
     <AuthLayout>
@@ -114,14 +97,15 @@ const Login = () => {
 
           <div className="mt-7 lg:mt-10">
             <Button
-              text={isLoading ? "Loading..." : "Log in"}
+              text={"Log in"}
               bg="bg-black"
               color="text-white"
               type="submit"
               variant="solid"
               borderColor="border-black"
-              disabled={isLoading}
+              disabled={isLoginLoading}
               className="w-full "
+              isLoading={isLoginLoading}
             />
           </div>
         </form>

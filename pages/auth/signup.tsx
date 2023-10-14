@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { LogoLg } from "@/components/shared/icons";
 import Link from "next/link";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const signupSchema = yup
   .object({
@@ -34,7 +35,6 @@ interface ISignupData {
 }
 
 const Signup = () => {
-  const [isLoading, setIsloading] = useState(false);
   const {
     register,
     formState: { errors },
@@ -43,27 +43,10 @@ const Signup = () => {
     resolver: yupResolver(signupSchema),
     mode: "onBlur",
   });
-  const router = useRouter();
+  const { isRegisterLoading, register: signup } = useAuthContext();
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsloading(true);
-    const req = await fetch("/signup/api", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        email: data.email,
-        password: data.password,
-        name: data.name,
-      }),
-    });
-
-    const res = await req.json();
-    setIsloading(false);
-    if (req.ok) {
-      router.push("/status?status=success");
-    } else {
-      router.push(`/status?status=error&message=${res.error.join(", ")}`);
-    }
+    await signup(data);
   });
   return (
     <AuthLayout>
@@ -130,14 +113,15 @@ const Signup = () => {
 
           <div className="mt-7 lg:mt-4">
             <Button
-              text={isLoading ? "Loading..." : "Create my account!"}
+              text={"Create my account!"}
               bg="bg-black"
               color="text-white"
               type="submit"
               variant="solid"
               borderColor="border-black"
-              disabled={isLoading}
+              disabled={isRegisterLoading}
               className="w-full"
+              isLoading={isRegisterLoading}
             />
           </div>
         </form>
