@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../shared/Button";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import useLinkGeneration from "@/hooks/useLinkGeneration";
 
 interface IFloatStepperBtns {
   currentStep: number;
@@ -9,6 +9,11 @@ interface IFloatStepperBtns {
   prevLink?: string;
   confirmText?: string;
   disableNext?: boolean;
+  isLast?: boolean;
+  onSubmit?: (
+    e?: React.BaseSyntheticEvent<object, any, any> | undefined,
+  ) => Promise<void>;
+  isLoading?: boolean;
 }
 
 const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
@@ -17,17 +22,20 @@ const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
   prevLink,
   confirmText,
   disableNext,
+  isLast,
+  onSubmit,
+  isLoading,
 }) => {
-  const router = useRouter();
-  const query = router.query;
-  const returnTo = query?.returnTo;
+  const { returnTo, generateLink } = useLinkGeneration();
 
   return (
     <div className="fixed bottom-0 left-0 z-10 flex w-full items-center justify-center gap-4 bg-white py-5 shadow-strong lg:hidden">
       {currentStep > 0 && (
         <Link
-          className={`block w-[30%] ${disableNext ? "diabled-link" : ""}`}
-          href={(returnTo as string) ?? prevLink ?? "#"}
+          className={`block w-[30%] ${
+            disableNext && returnTo ? "diabled-link" : ""
+          }`}
+          href={generateLink(prevLink as string)}
         >
           <Button
             bg="bg-black"
@@ -37,31 +45,41 @@ const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
             color="text-black"
             disabled={(returnTo?.length as number) > 0 && disableNext}
             className="w-full  font-primary font-bold"
+            isLoading={isLoading}
           />
         </Link>
       )}
-      <Link
-        href={nextLink ?? "#"}
-        className={`${disableNext ? "diabled-link" : ""} ${
-          currentStep == 0 ? "w-[85%]" : "w-[55%]"
-        }`}
-      >
-        <Button
-          bg="bg-black"
-          variant="solid"
-          borderColor="border-black"
-          text={
-            currentStep > 0
-              ? confirmText?.length
-                ? confirmText
-                : "NEXT"
-              : "GET STARTED"
-          }
-          disabled={disableNext}
-          color="text-white"
-          className={` w-full font-primary font-bold`}
-        />
-      </Link>
+
+      {isLast ? (
+        <form onSubmit={onSubmit} className="w-[55%]">
+          <Button
+            bg="bg-black"
+            variant="solid"
+            borderColor="border-black"
+            text={confirmText as string}
+            disabled={disableNext}
+            color="text-white"
+            className={`w-full  font-primary font-bold`}
+          />
+        </form>
+      ) : (
+        <Link
+          href={generateLink(nextLink as string)}
+          className={`${disableNext ? "diabled-link" : ""} ${
+            currentStep == 0 ? "w-[85%]" : "w-[55%]"
+          }`}
+        >
+          <Button
+            bg="bg-black"
+            variant="solid"
+            borderColor="border-black"
+            text={currentStep > 0 ? "NEXT" : "GET STARTED"}
+            disabled={disableNext}
+            color="text-white"
+            className={` w-full font-primary font-bold`}
+          />
+        </Link>
+      )}
     </div>
   );
 };
