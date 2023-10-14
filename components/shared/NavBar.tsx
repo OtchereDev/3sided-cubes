@@ -17,10 +17,10 @@ const NavBar: React.FC<INavBar> = ({ currentStep }) => {
       <div className="flex  items-center justify-between">
         <div>
           <Link href={"/"}>
-            <LogoSm className="lg:hidden" />
+            <LogoSm className="text-white lg:hidden" />
           </Link>
           <Link href={"/"}>
-            <LogoLg className="hidden lg:block" />
+            <LogoLg className="hidden text-white lg:block" />
           </Link>
         </div>
 

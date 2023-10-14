@@ -40,7 +40,7 @@ const Footer = () => {
         <Image
           src={LogoLg}
           alt="logo"
-          className="mx-auto w-8/12 !block lg:mx-0 lg:w-auto "
+          className="mx-auto !block w-8/12 text-white lg:mx-0 lg:w-auto "
         />
       </div>
 
