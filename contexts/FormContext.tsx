@@ -32,7 +32,7 @@ export interface IFormContextProvider {
 
 const NomineeSchema = yup
   .object({
-    nominee_id: yup.string().required("Please sent a cube name"),
+    nominee_id: yup.string().required("Please select a cube name"),
     reason: yup.string().required("Please provide a reason"),
     process: yup.string().required("Please rate our process"),
   })

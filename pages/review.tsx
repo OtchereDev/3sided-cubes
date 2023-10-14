@@ -70,6 +70,7 @@ const Review = () => {
         prevLink="/fairness"
         currentStep={4}
         confirmText="SUBMIT"
+        disableNext={Object.keys(errors).length > 0}
       />
     </BaseLayout>
   );

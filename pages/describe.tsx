@@ -64,7 +64,11 @@ const Describe = () => {
       <FloatStepperBtns
         prevLink="/nominate"
         nextLink="/fairness"
-        currentStep={1}
+        currentStep={2}
+        disableNext={
+          (errors.reason?.message?.length as number) > 0 ||
+          formValues.reason.length == 0
+        }
       />
     </BaseLayout>
   );

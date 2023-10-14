@@ -166,9 +166,10 @@ const Fairness = () => {
             <div className="lg:hidden">
               {options.map((option) => (
                 <FairnessMobileOption
-                  key={option.name}
+                  key={option.value}
                   name={option.name}
                   svg={option.svg}
+                  value={option.value}
                 />
               ))}
             </div>
@@ -195,9 +196,10 @@ const Fairness = () => {
         </div>
       </div>
       <FloatStepperBtns
-        currentStep={1}
+        currentStep={3}
         prevLink="/describe"
         nextLink="/review"
+        disableNext={!formValues.process.length}
       />
     </BaseLayout>
   );

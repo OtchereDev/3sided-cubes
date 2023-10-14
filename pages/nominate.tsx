@@ -104,7 +104,16 @@ const Nominate = () => {
           />
         </div>
       </div>
-      <FloatStepperBtns prevLink="/" nextLink="/describe" currentStep={1} />
+      <FloatStepperBtns
+        disableNext={
+          !formValues.nominee_id.length ||
+          (errors.nominee_id?.message?.length as number) > 0
+        }
+        prevLink="/"
+        nextLink="/describe"
+        currentStep={1}
+      />
+
       <Modal
         isOpen={isAbortModalOpen.current}
         onClose={() => {
