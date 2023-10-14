@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../shared/Button";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface IFormStepperBtn {
   disableNext?: boolean;
@@ -17,6 +18,10 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
   nextLink,
   prevLink,
 }) => {
+  const router = useRouter();
+  const query = router.query;
+  const returnTo = query?.returnTo;
+
   return (
     <div
       className={`mt-12  hidden w-full ${
@@ -24,19 +29,30 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
       } items-center lg:flex`}
     >
       {!isLast && (
-        <Link href={prevLink ?? "#"}>
+        <Link
+          className={
+            (returnTo?.length as number) > 0 && disableNext
+              ? "diabled-link"
+              : ""
+          }
+          href={(returnTo as string) ?? prevLink ?? "#"}
+        >
           <Button
             bg="bg-black"
             variant="outline"
             borderColor="border-black"
             text="BACK"
             color="text-black"
+            disabled={(returnTo?.length as number) > 0 && disableNext}
             className=" px-[32px] font-primary font-bold"
           />
         </Link>
       )}
 
-      <Link href={nextLink ?? "#"}>
+      <Link
+        className={disableNext ? "diabled-link" : ""}
+        href={nextLink ?? "#"}
+      >
         <Button
           bg="bg-black"
           variant="solid"
