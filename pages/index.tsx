@@ -39,6 +39,7 @@ export default function Home() {
                 text="GET STARTED"
                 color="text-white"
                 className="mx-auto px-[92px] font-primary font-bold"
+                isLoading
               />
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes } from "react";
+import { Loader } from "./icons";
 
 interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   bg: string;
@@ -8,11 +9,22 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   borderColor: string;
   className?: string;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, IButton>(
   (
-    { text, variant, bg, borderColor, color, className, disabled, ...rest },
+    {
+      text,
+      variant,
+      bg,
+      borderColor,
+      color,
+      className,
+      disabled,
+      isLoading,
+      ...rest
+    },
     ref,
   ) => {
     return (
@@ -31,7 +43,11 @@ const Button = React.forwardRef<HTMLButtonElement, IButton>(
         } py-3 ${color} ${className}`}
         {...rest}
       >
-        {text}
+        {isLoading ? (
+          <Loader className="lg:w-[20px] w-[15px] animate-spin" />
+        ) : (
+          text
+        )}
       </button>
     );
   },

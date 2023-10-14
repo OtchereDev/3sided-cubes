@@ -261,3 +261,63 @@ export const SelectArrow = (props: React.SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+export const Loader = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="24"
+    height="26"
+    viewBox="0 0 24 26"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M12 0.5V6.75"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M12 25.5V19.25"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M24 13H18"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M0 13H6"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M20.5 4.14551L16.25 8.57259"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M3.5 21.8538L7.75 17.4268"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M20.5 21.8538L16.25 17.4268"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+    <path
+      d="M3.5 4.14551L7.75 8.57259"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-miterlimit="10"
+    />
+  </svg>
+);
