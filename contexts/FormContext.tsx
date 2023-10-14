@@ -1,54 +1,92 @@
-import { useRouter } from "next/router";
-import { createContext, useState } from "react";
+import { createContext, useContext } from "react";
+import {
+  Control,
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+  useForm,
+} from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-export interface IFormValues {
+export type FormValues = {
   nominee_id: string;
   reason: string;
   process: string;
+  cubeName?: string;
+};
+export interface IFormContext {
+  formValues: FormValues;
+  control: Control<FormValues>;
+  setValue: UseFormSetValue<FormValues>;
+  trigger: UseFormTrigger<FormValues>;
+  errors: FieldErrors<FormValues>;
+  submitForm: (data: FormValues) => void;
+  register: UseFormRegister<FormValues>;
 }
 
-export interface ContextInterface {
-  setFormField: (
-    field: "nominee_id" | "reason" | "process",
-    value: string,
-  ) => void;
-  clearForm: () => void;
-  formValues: IFormValues;
-}
-
-interface IFormContextProvider {
+export interface IFormContextProvider {
   children: React.ReactNode;
 }
 
-export const FormContext = createContext<ContextInterface>({
-  setFormField: (field, value) => null,
-  clearForm: () => null,
-  formValues: { nominee_id: "", process: "", reason: "" },
-});
+const NomineeSchema = yup
+  .object({
+    nominee_id: yup.string().required("Please sent a cube name"),
+    reason: yup.string().required("Please provide a reason"),
+    process: yup.string().required("Please rate our process"),
+  })
+  .required();
 
-const FormContextProvider: React.FC<IFormContextProvider> = ({ children }) => {
-  const [formValues, setFormValues] = useState<IFormValues>({
-    nominee_id: "",
-    reason: "",
-    process: "",
+export const FormContext = createContext<IFormContext | null>(null);
+
+const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
+  const {
+    handleSubmit,
+    trigger,
+    control,
+    watch,
+    setValue,
+    register,
+    formState: { errors },
+  } = useForm<FormValues>({
+    mode: "onBlur",
+    defaultValues: {
+      nominee_id: "",
+      reason: "",
+      process: "",
+      cubeName: "",
+    },
+    resolver: yupResolver(NomineeSchema, { abortEarly: false }),
   });
 
-  const setFormField = (
-    field: "nominee_id" | "reason" | "process",
-    value: string,
-  ) => {
-    setFormValues({ ...formValues, [field]: value });
-  };
+  const formValues = watch();
 
-  const clearForm = () => {
-    setFormValues({ nominee_id: "", process: "", reason: "" });
-  };
+  const submitForm = (data: FormValues) => {};
 
   return (
-    <FormContext.Provider value={{ setFormField, clearForm, formValues }}>
+    <FormContext.Provider
+      value={{
+        formValues,
+        control,
+        setValue,
+        trigger,
+        errors,
+        submitForm,
+        register,
+      }}
+    >
       {children}
     </FormContext.Provider>
   );
 };
 
-export default FormContextProvider;
+export const useFormContext = () => {
+  const ctx = useContext<IFormContext | null>(FormContext);
+  if (!ctx) {
+    throw new Error("useFormContext must be used within a FormProvider");
+  }
+  return ctx;
+};
+
+export default FormProvider;
