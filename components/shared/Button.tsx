@@ -44,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButton>(
         {...rest}
       >
         {isLoading ? (
-          <Loader className="lg:w-[20px] w-[15px] animate-spin" />
+          <Loader className="mx-auto w-[15px] animate-spin lg:w-[20px]" />
         ) : (
           text
         )}
