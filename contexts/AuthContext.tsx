@@ -77,7 +77,7 @@ const AuthProvider: React.FC<IFormContextProvider> = ({ children }) => {
     const authToken = getFromLocalStorage<string>(AUTH_LOCALSTORAGE_KEY, "");
     if (["/auth/login", "/auth/signup"].includes(route)) {
       if (authToken.length) {
-        router.back();
+        router.push("/");
       }
     } else {
       if (!authToken.length) {
