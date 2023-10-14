@@ -85,7 +85,6 @@ const Review = () => {
               className=" px-[92px] font-primary font-bold"
               type="submit"
               isLoading={isCreateLoading || isUpdateLoading}
-              onClick={clearDataFromLocalStorage}
             />
           </form>
         </div>

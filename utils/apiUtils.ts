@@ -1,9 +1,5 @@
-import { AUTH_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
-import { getFromLocalStorage } from "./localStorageUtils";
-
-export const generateHeader = () => {
-  const AUTHKEY = getFromLocalStorage<string>(AUTH_LOCALSTORAGE_KEY, "");
+export const generateHeader = (key: string) => {
   return {
-    authorization: `Bearer ${AUTHKEY}`,
+    authorization: `Bearer ${key}`,
   };
 };
