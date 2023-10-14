@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../shared/Button";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import useLinkGeneration from "@/hooks/useLinkGeneration";
 
 interface IFormStepperBtn {
   disableNext?: boolean;
@@ -18,9 +18,7 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
   nextLink,
   prevLink,
 }) => {
-  const router = useRouter();
-  const query = router.query;
-  const returnTo = query?.returnTo;
+  const { returnTo, generateLink } = useLinkGeneration();
 
   return (
     <div
@@ -35,7 +33,7 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
               ? "diabled-link"
               : ""
           }
-          href={(returnTo as string) ?? prevLink ?? "#"}
+          href={generateLink(prevLink as string)}
         >
           <Button
             bg="bg-black"
@@ -51,7 +49,7 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
 
       <Link
         className={disableNext ? "diabled-link" : ""}
-        href={nextLink ?? "#"}
+        href={generateLink(nextLink as string)}
       >
         <Button
           bg="bg-black"
