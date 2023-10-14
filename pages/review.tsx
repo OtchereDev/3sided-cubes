@@ -4,14 +4,26 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-5.png";
 import ImgLg from "@/assets/images/lg/img-5.png";
-import FormStepperBtn from "@/components/form-process/FormStepperBtn";
 import FormStepper from "@/components/form-process/FormStepper";
 import NominationQA from "@/components/form-process/NominationQA";
 import { useFormContext } from "@/contexts/FormContext";
 import { getFairnessDisplayName } from "@/utils/calculateFairnessSelect";
+import Button from "@/components/shared/Button";
+import useLinkGeneration from "@/hooks/useLinkGeneration";
+import { useNominationContext } from "@/contexts/NominationContext";
 
 const Review = () => {
-  const { formValues, errors, trigger } = useFormContext();
+  const {
+    formValues,
+    errors,
+    trigger,
+    onSubmit,
+    isCreateLoading,
+    isUpdateLoading,
+  } = useFormContext();
+
+  const { mode } = useLinkGeneration();
+  const { refetch } = useNominationContext();
 
   useEffect(() => {
     trigger();
@@ -57,20 +69,35 @@ const Review = () => {
               editLink="/fairness"
             />
           </div>
-          <FormStepperBtn
-            disableNext={Object.keys(errors).length > 0}
-            nextLink="/submitted"
-            isLast
-            continueText="SUBMIT"
-          />
+
+          <form
+            onSubmit={onSubmit(refetch)}
+            className=" justify-center items-center mt-12 hidden lg:flex"
+          >
+            <Button
+              bg="bg-black"
+              variant="solid"
+              borderColor="border-black"
+              text={mode == "edit" ? "UPDATE" : "SUBMIT"}
+              color="text-white"
+              disabled={Object.keys(errors).length > 0}
+              className=" px-[92px] font-primary font-bold"
+              type="submit"
+              isLoading={isCreateLoading || isUpdateLoading}
+            />
+          </form>
         </div>
       </div>
       <FloatStepperBtns
         nextLink="/submitted"
         prevLink="/fairness"
         currentStep={4}
-        confirmText="SUBMIT"
-        disableNext={Object.keys(errors).length > 0}
+        confirmText={mode == "edit" ? "UPDATE" : "SUBMIT"}
+        disableNext={
+          Object.keys(errors).length > 0 || isCreateLoading || isUpdateLoading
+        }
+        isLast
+        onSubmit={onSubmit(refetch)}
       />
     </BaseLayout>
   );
