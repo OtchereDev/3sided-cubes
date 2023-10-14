@@ -23,9 +23,8 @@ import {
   useCubeAcademyRetrieveNomineeList,
   useCubeAcademyUpdateNomination,
 } from "@/api/apiComponents";
-import { AUTHKEY } from "@/constants/jwt";
 import useLinkGeneration from "@/hooks/useLinkGeneration";
-import { Nomination, Nominations } from "@/api/apiResponses";
+import { Nomination, Nominations, Nominee } from "@/api/apiResponses";
 import { toast } from "sonner";
 import {
   RefetchOptions,
@@ -37,8 +36,12 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorageUtils";
-import { FORM_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
+import {
+  AUTH_LOCALSTORAGE_KEY,
+  FORM_LOCALSTORAGE_KEY,
+} from "@/constants/storageKeys";
 import { generateHeader } from "@/utils/apiUtils";
+import { useCookie } from "react-use";
 
 export type FormValues = {
   nominee_id: string;
@@ -82,6 +85,7 @@ const NomineeSchema = yup
 export const FormContext = createContext<IFormContext | null>(null);
 
 const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
+  const [jwt] = useCookie(AUTH_LOCALSTORAGE_KEY);
   const {
     handleSubmit,
     trigger,
@@ -106,16 +110,21 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const router = useRouter();
 
   // mutations and queries
-  const { data: nomineeList } = useCubeAcademyRetrieveNomineeList({
-    headers: generateHeader(),
-  });
+  const { data: nomineeList } = useCubeAcademyRetrieveNomineeList(
+    {
+      headers: generateHeader(jwt as string),
+    },
+    { retry: 0, enabled: (jwt?.length as number) > 0 },
+  );
+
   const { data: nominationData } = useCubeAcademyGetNominationById(
     {
-      headers: generateHeader(),
+      headers: generateHeader(jwt as string),
       pathParams: { nominationId: id as string },
     },
-    { enabled: mode == "edit" && (id?.length as number) > 0 },
+    { enabled: mode == "edit" && (id?.length as number) > 0, retry: false },
   );
+
   const { isLoading, mutateAsync } = useCubeAcademyCreateNomination();
   const { isLoading: isUpdateLoading, mutateAsync: updateMutateAsync } =
     useCubeAcademyUpdateNomination();
@@ -134,9 +143,7 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
         if (mode == "edit" && id.length) {
           // update nomination here
           response = await updateMutateAsync({
-            headers: {
-              authorization: `Bearer ${AUTHKEY}`,
-            },
+            headers: generateHeader(jwt as string),
             body: {
               nominee_id: data.nominee_id,
               reason: data.reason,
@@ -149,9 +156,7 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
         } else {
           // create nomination here
           response = await mutateAsync({
-            headers: {
-              authorization: `Bearer ${AUTHKEY}`,
-            },
+            headers: generateHeader(jwt as string),
             body: {
               nominee_id: data.nominee_id,
               reason: data.reason,
@@ -165,6 +170,7 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
           if (mode == "edit") {
             successUrl += `?mode=edit`;
           }
+          clearDataFromLocalStorage();
           await refetch();
           router.push(successUrl);
         }
@@ -180,7 +186,7 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
       setValue("process", nominationData.data.process as string);
 
       const nominee = nomineeList?.data?.find(
-        (person) => person.nominee_id == nominationData.data?.nominee_id,
+        (person) => person.nominee_id == nominationData?.data?.nominee_id,
       );
 
       if (nominee) {

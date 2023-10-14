@@ -3,10 +3,8 @@ import {
   CubeAcademyGetAllNominationsError,
   useCubeAcademyDeleteNomination,
   useCubeAcademyGetAllNominations,
-  useCubeAcademyGetNominationById,
   useCubeAcademyRetrieveNomineeList,
 } from "@/api/apiComponents";
-import { AUTHKEY } from "@/constants/jwt";
 import { Nominations, Nominee } from "@/api/apiResponses";
 import {
   RefetchOptions,
@@ -15,6 +13,8 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { generateHeader } from "@/utils/apiUtils";
+import { useCookie } from "react-use";
+import { AUTH_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
 
 export interface INominationContext {
   nominees: Nominee["data"];
@@ -36,13 +36,20 @@ export interface IFormContextProvider {
 export const NominationContext = createContext<INominationContext | null>(null);
 
 const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
-  const { data } = useCubeAcademyRetrieveNomineeList({
-    headers: generateHeader(),
-  });
+  const [jwt] = useCookie(AUTH_LOCALSTORAGE_KEY);
+  const { data } = useCubeAcademyRetrieveNomineeList(
+    {
+      headers: generateHeader(jwt as string),
+    },
+    { retry: false, enabled: (jwt?.length as number) > 0 },
+  );
 
-  const { data: nominationsList, refetch } = useCubeAcademyGetAllNominations({
-    headers: generateHeader(),
-  });
+  const { data: nominationsList, refetch } = useCubeAcademyGetAllNominations(
+    {
+      headers: generateHeader(jwt as string),
+    },
+    { retry: 0, enabled: (jwt?.length as number) > 0 },
+  );
 
   const { mutateAsync: deleteNominationAsync, isLoading: isDeleteLoading } =
     useCubeAcademyDeleteNomination();
@@ -53,7 +60,7 @@ const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
         pathParams: {
           nominationId: id,
         },
-        headers: generateHeader(),
+        headers: generateHeader(jwt as string),
       });
       if (response.data) {
         await refetch();
