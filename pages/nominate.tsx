@@ -60,9 +60,9 @@ const Nominate = () => {
   }));
 
   return (
-    <BaseLayout removeMainOverhidden title="Home">
+    <BaseLayout currentStep={1} removeMainOverhidden title="Home">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
-        <FormStepper step={1} />
+        <FormStepper step={1} className="hidden lg:block" />
         <Image
           src={ImgSm}
           alt="lady and guy collaborating"

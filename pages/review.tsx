@@ -30,9 +30,9 @@ const Review = () => {
   }, []);
 
   return (
-    <BaseLayout title="Home" highBgTop>
+    <BaseLayout title="Home" highBgTop currentStep={4}>
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
-        <FormStepper step={4} />
+        <FormStepper step={4} className="hidden lg:block" />
         <Image
           src={ImgSm}
           alt="lady and guy collaborating"
@@ -72,7 +72,7 @@ const Review = () => {
 
           <form
             onSubmit={onSubmit(refetch)}
-            className=" justify-center items-center mt-12 hidden lg:flex"
+            className=" mt-12 hidden items-center justify-center lg:flex"
           >
             <Button
               bg="bg-black"

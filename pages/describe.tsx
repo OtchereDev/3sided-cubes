@@ -13,9 +13,9 @@ const Describe = () => {
   const { formValues, register, errors, setValue } = useFormContext();
 
   return (
-    <BaseLayout title="Home">
+    <BaseLayout currentStep={2} title="Home">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
-        <FormStepper step={2} />
+        <FormStepper step={2} className="hidden lg:block" />
         <Image
           src={ImgSm}
           alt="lady and guy collaborating"
@@ -27,7 +27,7 @@ const Describe = () => {
           className="hidden h-[187px] w-full lg:block"
         />
         <div className="px-4 pb-20 pt-8 lg:px-0 lg:py-8">
-          <h2 className="w-[80%] text-left font-primary uppercase text-2xl font-bold lg:w-full">
+          <h2 className="w-[80%] text-left font-primary text-2xl font-bold uppercase lg:w-full">
             I’d like to nominate{" "}
             <span className="text-primary-pink">
               {formValues.cubeName?.split(" ")[0]}
@@ -47,7 +47,7 @@ const Describe = () => {
             <textarea
               {...register("reason")}
               onChange={(e) => setValue("reason", e.target.value)}
-              className={`mt-2 h-[159px] w-full border px-4 resize-none py-2 font-secondary outline-none ${
+              className={`mt-2 h-[159px] w-full resize-none border px-4 py-2 font-secondary outline-none ${
                 errors.reason?.message ? "form-field-error " : "border-black"
               }`}
             ></textarea>

@@ -11,6 +11,7 @@ interface IBaseLayout {
   addBg?: boolean;
   highBgTop?: boolean;
   removeMainOverhidden?: boolean;
+  currentStep?: number | boolean;
 }
 
 const BaseLayout: React.FC<IBaseLayout> = ({
@@ -19,19 +20,22 @@ const BaseLayout: React.FC<IBaseLayout> = ({
   addBg,
   highBgTop,
   removeMainOverhidden,
+  currentStep,
 }) => {
   const pageTitle = `3 sided cube - ${title}`;
 
   return (
     <div className="h-screen min-h-screen w-full font-primary">
-      <NavBar />
+      <NavBar currentStep={currentStep} />
       <Head>
         <title>{pageTitle}</title>
       </Head>
       <main
-        className={`lg:bg-primaryGradient  w-full pt-[5.3rem] lg:relative ${
-          addBg && "bg-primaryGradient"
-        } ${!removeMainOverhidden ? "overflow-hidden" : ""}`}
+        className={`w-full  ${
+          currentStep ? "pt-[7.55rem]" : "pt-[5.3rem]"
+        } lg:relative lg:bg-primaryGradient ${addBg && "bg-primaryGradient"} ${
+          !removeMainOverhidden ? "overflow-hidden" : ""
+        }`}
       >
         <Image
           src={Bg}
