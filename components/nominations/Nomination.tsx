@@ -1,12 +1,30 @@
 import React, { useState } from "react";
 import Modal from "../shared/Modal";
+import { Nomination } from "@/api/apiResponses";
+import dayjs from "dayjs";
+import { getFairnessDisplayName } from "@/utils/calculateFairnessSelect";
+import { useNominationContext } from "@/contexts/NominationContext";
+import { useRouter } from "next/router";
 
 interface INomination {
   isClosed?: boolean;
+  nomination: Nomination["data"];
 }
 
-const Nomination: React.FC<INomination> = ({ isClosed }) => {
+const NominationComponent: React.FC<INomination> = ({
+  isClosed,
+  nomination,
+}) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const router = useRouter();
+
+  //TODO: add to challenge: The api has to nominee information
+  const { nominees, deleteNomination, isDeleteLoading } =
+    useNominationContext();
+  const nominee = nominees?.find(
+    (nominee) => nominee.nominee_id == nomination?.nominee_id,
+  );
+
   return (
     <>
       <tr
@@ -14,19 +32,27 @@ const Nomination: React.FC<INomination> = ({ isClosed }) => {
       >
         <td className=" px-6 py-6 font-secondary">
           <div>
-            <p className=" font-bold lg:font-normal">David Jones</p>
+            <p className=" font-bold lg:font-normal">
+              {nominee?.first_name} {nominee?.last_name}
+            </p>
 
-            <p className="font-secondary text-grey-dark lg:hidden">
-              Always goes above and...
+            <p className="font-secondary max-w-[400px] line-clamp-1 text-grey-dark lg:hidden text-ellipsis">
+              {nomination?.reason}
             </p>
           </div>
         </td>
-        <td className=" hideable-table-column">21/10/23</td>
-        <td className=" hideable-table-column"> 29/10/23</td>
         <td className=" hideable-table-column">
-          Lorem ipsum dolor sit amet, consecet desu...
+          {dayjs(nomination?.date_submitted).format("DD/MM/YYYY")}
         </td>
-        <td className=" hideable-table-column">Fair</td>
+        <td className=" hideable-table-column">
+          {dayjs(nomination?.closing_date).format("DD/MM/YYYY")}
+        </td>
+        <td className=" hideable-table-column max-w-[422px]">
+          <p className=" line-clamp-1">{nomination?.reason}</p>
+        </td>
+        <td className=" hideable-table-column">
+          {getFairnessDisplayName(nomination?.process as string)}
+        </td>
         <td>
           <div className="flex items-center justify-between  px-6 py-6">
             <div className="flex gap-4">
@@ -55,6 +81,11 @@ const Nomination: React.FC<INomination> = ({ isClosed }) => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 className="cursor-pointer"
+                onClick={() =>
+                  router.push(
+                    `/nominate?mode=edit&id=${nomination?.nomination_id}`,
+                  )
+                }
               >
                 <path
                   d="M1.39735 14.5964C1.43564 14.2518 1.45478 14.0795 1.50691 13.9185C1.55316 13.7756 1.61851 13.6397 1.70118 13.5143C1.79436 13.373 1.91694 13.2504 2.16209 13.0053L13.1673 2.00005C14.0878 1.07957 15.5802 1.07957 16.5007 2.00005C17.4211 2.92052 17.4211 4.41291 16.5007 5.33338L5.49542 16.3386C5.25027 16.5838 5.1277 16.7063 4.98639 16.7995C4.86102 16.8822 4.72506 16.9475 4.58219 16.9938C4.42115 17.0459 4.24887 17.0651 3.90429 17.1033L1.08398 17.4167L1.39735 14.5964Z"
@@ -73,13 +104,16 @@ const Nomination: React.FC<INomination> = ({ isClosed }) => {
         onClose={() => {
           setIsDeleteModalOpen(false);
         }}
-        confirmMessage="If you delete this nomination, the nominee will no longer be put
-      forward by you."
+        confirmMessage="If you delete this nomination, the nominee will no longer be put forward by you."
         title="Delete this nomination?"
         btnText="yes, delete"
+        onClick={async () => {
+          await deleteNomination(nomination?.nomination_id as string);
+        }}
+        isLoading={isDeleteLoading}
       />
     </>
   );
 };
 
-export default Nomination;
+export default NominationComponent;
