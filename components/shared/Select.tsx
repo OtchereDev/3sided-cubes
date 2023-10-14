@@ -30,8 +30,8 @@ const Select: React.FC<ISelect> = ({
   useEffect(() => {
     if (contentRef.current) {
       if (isOpen) {
-        contentRef.current.style.maxHeight =
-          contentRef.current.scrollHeight + "px";
+        contentRef.current.style.maxHeight = "220px";
+        contentRef.current.style.overflow = "scroll";
       } else if (!isOpen && contentRef.current) {
         contentRef.current.style.maxHeight = 0 + "px";
       }
@@ -55,6 +55,10 @@ const Select: React.FC<ISelect> = ({
       setIsOpen(false);
     }
   }, [selectValue, error]);
+
+  useEffect(() => {
+    setSelectValue(initialValue);
+  }, [initialValue]);
 
   return (
     <>
@@ -81,14 +85,14 @@ const Select: React.FC<ISelect> = ({
         <div className="absolute top-full left-0 w-full z-10">
           <div
             ref={contentRef}
-            className={` accordion-item-content max-h-0 overflow-hidden bg-grey-light`}
+            className={` accordion-item-content max-h-0 overflow-hidden bg-grey-light z-100 relative`}
           >
             <div
               onClick={() => {
                 setSelectValue("");
                 setClickCount(clickCount + 1);
               }}
-              className="border-b-2 cursor-pointer border-white px-3 py-3 font-secondary"
+              className=" custom-select-option"
             >
               <p>Select Option</p>
             </div>
@@ -99,7 +103,7 @@ const Select: React.FC<ISelect> = ({
                   setClickCount(clickCount + 1);
                 }}
                 key={option.value}
-                className="border-b-2 cursor-pointer border-white px-3 py-3 font-secondary"
+                className="custom-select-option"
               >
                 <p>{option.text}</p>
               </div>
