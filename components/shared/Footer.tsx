@@ -9,27 +9,27 @@ const socials = [
   {
     name: "twitter",
     svg: <Twitter className="socials" />,
-    link: "",
+    link: "https://twitter.com/3sidedcube",
   },
   {
     name: "instagram",
     svg: <Instagram className="socials" />,
-    link: "",
+    link: "https://instagram.com/3sidedcube",
   },
   {
     name: "facebook",
     svg: <Facebook className="socials" />,
-    link: "",
+    link: "https://facebook.com/3sidedcube",
   },
   {
     name: "linkedin",
     svg: <LinkedIn className="socials" />,
-    link: "",
+    link: "https://www.linkedin.com/company/3-sided-cube",
   },
   {
     name: "youtube",
     svg: <Youtube className="socials" />,
-    link: "",
+    link: "https://youtube.com/3sidedcube",
   },
 ];
 
@@ -70,7 +70,7 @@ const Footer = () => {
 
         <div className="mt-8 lg:mt-0">
           <p className="font-primary text-xs font-bold ">Get social</p>
-          <div className="mt-2 flex gap-4">
+          <div className="mt-4 flex gap-4">
             {socials.map((social) => (
               <Link key={social.name} href={social.link}>
                 {social.svg}

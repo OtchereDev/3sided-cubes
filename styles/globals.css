@@ -9,7 +9,7 @@
 
 @layer components {
   .socials {
-    @apply h-[20px] w-[20px] lg:h-[24px] lg:w-[24px];
+    @apply h-[20px] w-[20px] lg:h-[24px] lg:w-[24px] hover:text-primary-green hover:-translate-y-[6px] hover:duration-300 hover:ease-in-out hover:transition-transform;
   }
   .hidable-table-cell {
     @apply hidden bg-grey-light px-6 py-6 text-left font-primary font-bold lg:table-cell;
