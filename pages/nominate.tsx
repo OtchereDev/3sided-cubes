@@ -7,54 +7,28 @@ import ImgLg from "@/assets/images/lg/img-2.png";
 import FormStepperBtn from "@/components/form-process/FormStepperBtn";
 import FormStepper from "@/components/form-process/FormStepper";
 import Select from "@/components/shared/Select";
-import { useRouter } from "next/router";
 import Modal from "@/components/shared/Modal";
 import { useFormContext } from "@/contexts/FormContext";
 import { getSelectDisplay } from "@/utils/getSelectDisplay";
-import { useCubeAcademyRetrieveNomineeList } from "@/api/apiComponents";
-import { AUTHKEY } from "@/constants/jwt";
+import { useNavigationObserver } from "@/hooks/useWarnOnExist";
+import { useNominationContext } from "@/contexts/NominationContext";
 
 const Nominate = () => {
-  // const [unsavedChanges, setUnsavedChanges] = useState(true);
-  // const router = useRouter();
-  const isAbortModalOpen = useRef(false);
-  // const [allowRouting, setAllowingRouting] = useState(false);
-  const { data } = useCubeAcademyRetrieveNomineeList({
-    headers: {
-      authorization: `Bearer ${AUTHKEY}`,
+  const [showModal, setShowModal] = useState(false);
+  const { nominees } = useNominationContext();
+
+  const [isDirtyState, setIsDirtyState] = useState(true);
+
+  const navigate = useNavigationObserver({
+    shouldStopNavigation: isDirtyState,
+    onNavigate: () => {
+      setShowModal(true);
     },
   });
 
-  // useEffect(() => {
-  //   const warningText =
-  //     "You have unsaved changes - are you sure you wish to leave this page?";
-  //   const handleWindowClose = (e: BeforeUnloadEvent) => {
-  //     if (!unsavedChanges) return;
-  //     e.preventDefault();
-  //     isAbortModalOpen.current = true;
-  //     // return;
-  //     return (e.returnValue = warningText);
-  //   };
-  //   const handleBrowseAway = () => {
-  //     if (!unsavedChanges) return;
-  //     isAbortModalOpen.current = true;
-  //     if (window.confirm(warningText)) return;
-  //     console.log(router.events);
-  //     router.events?.emit("routeChangeError", "Routing Aborted", "/nominate", {
-  //       shallow: false,
-  //     });
-  //     throw "routeChange aborted.";
-  //   };
-  //   window.addEventListener("beforeunload", handleWindowClose);
-  //   router.events.on("routeChangeStart", handleBrowseAway);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", handleWindowClose);
-  //     router.events.off("routeChangeStart", handleBrowseAway);
-  //   };
-  // }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
-
-  const { formValues, setValue, trigger, errors } = useFormContext();
-  const options = data?.data?.map((nominee) => ({
+  const { formValues, setValue, trigger, errors, clearDataFromLocalStorage } =
+    useFormContext();
+  const options = nominees?.map((nominee) => ({
     value: nominee.nominee_id as string,
     text: nominee.first_name + " " + nominee.last_name,
   }));
@@ -124,13 +98,18 @@ const Nominate = () => {
       />
 
       <Modal
-        isOpen={isAbortModalOpen.current}
+        isOpen={showModal}
         onClose={() => {
-          // setIsAbortModalOpen(false);
+          setShowModal(false);
         }}
         confirmMessage="If you leave this page, you will lose any progress made."
         title="Yes, leave page"
         btnText="yes, delete"
+        onClick={() => {
+          setIsDirtyState(false);
+          clearDataFromLocalStorage();
+          navigate();
+        }}
       />
     </BaseLayout>
   );
