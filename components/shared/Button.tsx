@@ -19,7 +19,13 @@ const Button = React.forwardRef<HTMLButtonElement, IButton>(
       <button
         ref={ref}
         className={`${
-          variant == "solid" ? (disabled ? "bg-grey-mid" : bg) : ""
+          variant == "solid"
+            ? disabled
+              ? "bg-grey-mid "
+              : bg
+            : disabled
+            ? "text-opacity-20"
+            : ""
         } border-2 ${
           disabled ? "border-grey-mid" : borderColor
         } py-3 ${color} ${className}`}
