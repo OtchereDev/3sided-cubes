@@ -14,6 +14,7 @@ import {
   QueryObserverResult,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { generateHeader } from "@/utils/apiUtils";
 
 export interface INominationContext {
   nominees: Nominee["data"];
@@ -36,11 +37,11 @@ export const NominationContext = createContext<INominationContext | null>(null);
 
 const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const { data } = useCubeAcademyRetrieveNomineeList({
-    headers: { authorization: `Bearer ${AUTHKEY}` },
+    headers: generateHeader(),
   });
 
   const { data: nominationsList, refetch } = useCubeAcademyGetAllNominations({
-    headers: { authorization: `Bearer ${AUTHKEY}` },
+    headers: generateHeader(),
   });
 
   const { mutateAsync: deleteNominationAsync, isLoading: isDeleteLoading } =
@@ -52,9 +53,7 @@ const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
         pathParams: {
           nominationId: id,
         },
-        headers: {
-          authorization: `Bearer ${AUTHKEY}`,
-        },
+        headers: generateHeader(),
       });
       if (response.data) {
         await refetch();

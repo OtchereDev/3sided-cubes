@@ -12,6 +12,8 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorageUtils";
+import { AUTH_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
+import { generateHeader } from "@/utils/apiUtils";
 
 export interface IAuthContext {
   login: (data: CubeAcademyLoginRequestBody) => Promise<void>;
@@ -27,7 +29,6 @@ export interface IFormContextProvider {
 export const AuthContext = createContext<IAuthContext | null>(null);
 
 const AuthProvider: React.FC<IFormContextProvider> = ({ children }) => {
-  const AUTH_LOCALSTORAGE_KEY = "3sidedcubes.auth";
   const { mutateAsync: loginAsync, isLoading: isLoginLoading } =
     useCubeAcademyLogin();
   const { mutateAsync: registerAsync, isLoading: isRegisterLoading } =
@@ -38,9 +39,7 @@ const AuthProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const login = async (data: CubeAcademyLoginRequestBody) => {
     try {
       const response = await loginAsync({
-        headers: {
-          authorization: `Bearer ${AUTHKEY}`,
-        },
+        headers: generateHeader(),
         body: data,
       });
 
@@ -57,9 +56,7 @@ const AuthProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const register = async (data: CubeAcademyRegisterRequestBody) => {
     try {
       const response = await registerAsync({
-        headers: {
-          authorization: `Bearer ${AUTHKEY}`,
-        },
+        headers: generateHeader(),
         body: data,
       });
 

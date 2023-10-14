@@ -26,7 +26,6 @@ import {
 import { AUTHKEY } from "@/constants/jwt";
 import useLinkGeneration from "@/hooks/useLinkGeneration";
 import { Nomination, Nominations } from "@/api/apiResponses";
-import { useNominationContext } from "./NominationContext";
 import { toast } from "sonner";
 import {
   RefetchOptions,
@@ -38,6 +37,8 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorageUtils";
+import { FORM_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
+import { generateHeader } from "@/utils/apiUtils";
 
 export type FormValues = {
   nominee_id: string;
@@ -106,11 +107,11 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
 
   // mutations and queries
   const { data: nomineeList } = useCubeAcademyRetrieveNomineeList({
-    headers: { authorization: `Bearer ${AUTHKEY}` },
+    headers: generateHeader(),
   });
   const { data: nominationData } = useCubeAcademyGetNominationById(
     {
-      headers: { authorization: `Bearer ${AUTHKEY}` },
+      headers: generateHeader(),
       pathParams: { nominationId: id as string },
     },
     { enabled: mode == "edit" && (id?.length as number) > 0 },
@@ -192,15 +193,16 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const formValues = watch();
 
   const setDataToLocalStorage = () =>
-    setToLocalStorage("3sidedcubes", formValues);
+    setToLocalStorage(FORM_LOCALSTORAGE_KEY, formValues);
   const getDataFromLocalStorage = () =>
-    getFromLocalStorage("3sidedcubes", {
+    getFromLocalStorage(FORM_LOCALSTORAGE_KEY, {
       nominee_id: "",
       reason: "",
       process: "",
       cubeName: "",
     });
-  const clearDataFromLocalStorage = () => clearFromLocalStorage("3sidedcubes");
+  const clearDataFromLocalStorage = () =>
+    clearFromLocalStorage(FORM_LOCALSTORAGE_KEY);
 
   useEffect(() => {
     const data = getDataFromLocalStorage();
