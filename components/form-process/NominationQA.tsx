@@ -1,3 +1,4 @@
+import useLinkGeneration from "@/hooks/useLinkGeneration";
 import Link from "next/link";
 import React from "react";
 
@@ -12,12 +13,14 @@ const NominationQA: React.FC<INominationQA> = ({
   answer,
   editLink,
 }) => {
+  const { generateEditLink } = useLinkGeneration();
+
   return (
     <div className="relative mb-3 bg-grey-light px-5 py-5">
       <h4 className="text-base font-bold">{question}</h4>
       <p className="mt-1 font-secondary text-base lg:w-[80%]">{answer}</p>
 
-      <Link href={`${editLink}?returnTo=/review`}>
+      <Link href={generateEditLink(editLink)}>
         <svg
           width="19"
           height="19"
