@@ -60,6 +60,7 @@ const Describe = () => {
             }
             prevLink="/nominate"
             nextLink="/fairness"
+            dispatchState
           />
         </div>
       </div>
@@ -71,6 +72,7 @@ const Describe = () => {
           (errors.reason?.message?.length as number) > 0 ||
           formValues.reason.length == 0
         }
+        dispatchState
       />
     </BaseLayout>
   );

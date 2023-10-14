@@ -57,6 +57,8 @@ export interface IFormContext {
   ) => (e?: BaseSyntheticEvent<object, any, any> | undefined) => Promise<void>;
   isCreateLoading: boolean;
   isUpdateLoading: boolean;
+  setDataToLocalStorage: () => void;
+  clearDataFromLocalStorage: () => void;
 }
 
 export interface IFormContextProvider {
@@ -184,6 +186,29 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
 
   const formValues = watch();
 
+  const setDataToLocalStorage = () => {
+    const storageData = JSON.stringify(formValues);
+    localStorage.setItem("3sidedcubes", storageData);
+  };
+  const getDataFromLocalStorage = () => {
+    const data = localStorage.getItem("3sidedcubes");
+    if (data) {
+      return JSON.parse(data) as FormValues;
+    }
+    return { nominee_id: "", reason: "", process: "", cubeName: "" };
+  };
+  const clearDataFromLocalStorage = () => {
+    localStorage.removeItem("3sidedcubes");
+  };
+
+  useEffect(() => {
+    const data = getDataFromLocalStorage();
+    setValue("cubeName", data.cubeName);
+    setValue("nominee_id", data.nominee_id);
+    setValue("process", data.process);
+    setValue("reason", data.reason);
+  }, []);
+
   return (
     <FormContext.Provider
       value={{
@@ -197,6 +222,8 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
         isCreateLoading: isLoading,
         isUpdateLoading,
         onSubmit,
+        setDataToLocalStorage,
+        clearDataFromLocalStorage,
       }}
     >
       {children}

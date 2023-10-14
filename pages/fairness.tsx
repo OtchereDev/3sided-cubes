@@ -192,6 +192,7 @@ const Fairness = () => {
             disableNext={!formValues.process.length}
             prevLink="/describe"
             nextLink="/review"
+            dispatchState
           />
         </div>
       </div>
@@ -200,6 +201,7 @@ const Fairness = () => {
         prevLink="/describe"
         nextLink="/review"
         disableNext={!formValues.process.length}
+        dispatchState
       />
     </BaseLayout>
   );

@@ -102,6 +102,7 @@ const Nominate = () => {
             />
           </div>
           <FormStepperBtn
+            dispatchState
             disableNext={
               !formValues.nominee_id.length ||
               (errors.nominee_id?.message?.length as number) > 0
@@ -119,6 +120,7 @@ const Nominate = () => {
         prevLink="/"
         nextLink="/describe"
         currentStep={1}
+        dispatchState
       />
 
       <Modal

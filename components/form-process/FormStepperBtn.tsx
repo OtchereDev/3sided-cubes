@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../shared/Button";
 import Link from "next/link";
 import useLinkGeneration from "@/hooks/useLinkGeneration";
+import { useFormContext } from "@/contexts/FormContext";
 
 interface IFormStepperBtn {
   disableNext?: boolean;
@@ -9,6 +10,7 @@ interface IFormStepperBtn {
   continueText?: string;
   nextLink?: string;
   prevLink?: string;
+  dispatchState?: boolean;
 }
 
 const FormStepperBtn: React.FC<IFormStepperBtn> = ({
@@ -17,8 +19,10 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
   continueText,
   nextLink,
   prevLink,
+  dispatchState,
 }) => {
   const { returnTo, generateLink } = useLinkGeneration();
+  const { setDataToLocalStorage } = useFormContext();
 
   return (
     <div
@@ -43,6 +47,11 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
             color="text-black"
             disabled={(returnTo?.length as number) > 0 && disableNext}
             className=" px-[32px] font-primary font-bold"
+            onClick={() =>
+              dispatchState &&
+              (returnTo?.length as number) > 0 &&
+              setDataToLocalStorage()
+            }
           />
         </Link>
       )}
@@ -59,6 +68,7 @@ const FormStepperBtn: React.FC<IFormStepperBtn> = ({
           color="text-white"
           disabled={disableNext}
           className=" px-[92px] font-primary font-bold"
+          onClick={() => dispatchState && setDataToLocalStorage()}
         />
       </Link>
     </div>
