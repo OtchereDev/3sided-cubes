@@ -83,7 +83,7 @@ const Signup = () => {
             <AuthInput
               register={register("name")}
               type="text"
-              placeholder="Confirm your password"
+              placeholder="Enter name"
               hasError={(errors.name?.message?.length as number) > 0}
             />
             {errors.name && (
