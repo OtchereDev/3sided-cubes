@@ -11,12 +11,19 @@ import { useRouter } from "next/router";
 import Modal from "@/components/shared/Modal";
 import { useFormContext } from "@/contexts/FormContext";
 import { getSelectDisplay } from "@/utils/getSelectDisplay";
+import { useCubeAcademyRetrieveNomineeList } from "@/api/apiComponents";
+import { AUTHKEY } from "@/constants/jwt";
 
 const Nominate = () => {
-  const [unsavedChanges, setUnsavedChanges] = useState(true);
-  const router = useRouter();
+  // const [unsavedChanges, setUnsavedChanges] = useState(true);
+  // const router = useRouter();
   const isAbortModalOpen = useRef(false);
-  const [allowRouting, setAllowingRouting] = useState(false);
+  // const [allowRouting, setAllowingRouting] = useState(false);
+  const { data } = useCubeAcademyRetrieveNomineeList({
+    headers: {
+      authorization: `Bearer ${AUTHKEY}`,
+    },
+  });
 
   // useEffect(() => {
   //   const warningText =
@@ -47,13 +54,13 @@ const Nominate = () => {
   // }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
 
   const { formValues, setValue, trigger, errors } = useFormContext();
-  const options = [
-    { value: "2", text: "Derek" },
-    { value: "1", text: "Oliver" },
-  ];
+  const options = data?.data?.map((nominee) => ({
+    value: nominee.nominee_id as string,
+    text: nominee.first_name + " " + nominee.last_name,
+  }));
 
   return (
-    <BaseLayout title="Home">
+    <BaseLayout removeMainOverhidden title="Home">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
         <FormStepper step={1} />
         <Image
@@ -81,7 +88,7 @@ const Nominate = () => {
             </p>
 
             <Select
-              options={options}
+              options={options ?? []}
               containerClassName="mt-3 lg:w-[60%]"
               onBlur={() => {
                 trigger("nominee_id");
@@ -89,7 +96,7 @@ const Nominate = () => {
               error={errors.nominee_id?.message}
               onChange={(val) => {
                 setValue("nominee_id", val);
-                setValue("cubeName", getSelectDisplay(options, val));
+                setValue("cubeName", getSelectDisplay(options ?? [], val));
               }}
               initialValue={formValues.nominee_id}
             />
