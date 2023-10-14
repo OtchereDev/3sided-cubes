@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { SelectArrow } from "./icons";
 import { ISelectOption } from "@/types/select";
 import { getSelectDisplay } from "@/utils/getSelectDisplay";
-import { count } from "console";
 import FormError from "./FormError";
 
 interface ISelect {
@@ -79,13 +78,13 @@ const Select: React.FC<ISelect> = ({
           <SelectArrow
             className={` ${
               isOpen ? "rotate-180" : "rotate-0"
-            } duration-300 transition-all`}
+            } transition-all duration-300`}
           />
         </div>
-        <div className="absolute top-full left-0 w-full z-10">
+        <div className="absolute left-0 top-full z-10 w-full">
           <div
             ref={contentRef}
-            className={` accordion-item-content max-h-0 overflow-hidden bg-grey-light z-100 relative`}
+            className={` accordion-item-content z-100 relative max-h-0 overflow-hidden bg-grey-light`}
           >
             <div
               onClick={() => {
