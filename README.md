@@ -17,7 +17,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Extra Technology
 
-No extra technology was added
+Localstorage and Cookie
 
 ## Extra Features
 
