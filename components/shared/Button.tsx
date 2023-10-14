@@ -33,14 +33,14 @@ const Button = React.forwardRef<HTMLButtonElement, IButton>(
         className={`${
           variant == "solid"
             ? disabled
-              ? "bg-grey-mid "
-              : bg
+              ? "bg-grey-mid  "
+              : `${bg} hover:text-black`
             : disabled
             ? "text-opacity-20"
-            : ""
+            : "hover:border-primary-pink"
         } border-2 ${
           disabled ? "border-grey-mid" : borderColor
-        } py-3 ${color} ${className}`}
+        } py-3 ${color} ${className} hover:!bg-transparent`}
         {...rest}
       >
         {isLoading ? (
