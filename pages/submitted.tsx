@@ -8,8 +8,10 @@ import ImgLg from "@/assets/images/lg/img-6.png";
 import Button from "@/components/shared/Button";
 import FloatingCreateBtn from "@/components/form-process/FloatingCreateBtn";
 import Link from "next/link";
+import useLinkGeneration from "@/hooks/useLinkGeneration";
 
 const Submitted = () => {
+  const { mode } = useLinkGeneration();
   return (
     <BaseLayout title="Home">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[800px]  lg:bg-white  lg:shadow-light">
@@ -25,7 +27,7 @@ const Submitted = () => {
         />
         <div className="mb-32 px-4 pb-20 pt-8 lg:mb-0 lg:px-0 lg:py-8">
           <h2 className="mx-auto w-[70%] text-center font-primary text-3xl font-bold uppercase leading-[48px] lg:w-full">
-            nomination submitted
+            nomination {mode == "edit" ? "updated" : "submitted"}
           </h2>
           <p className="mt-5 text-center font-secondary text-[#444444] lg:mx-auto lg:mt-5 lg:w-[75%]">
             Thank you for taking the time to fill out this form! Why not
