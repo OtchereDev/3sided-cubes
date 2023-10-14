@@ -357,7 +357,7 @@ export const Pen = (props: React.SVGProps<SVGSVGElement>) => (
       stroke="currentColor"
       strokeWidth="1.66667"
       strokeLinecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
