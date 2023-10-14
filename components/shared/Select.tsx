@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SelectArrow } from "./icons";
+import { ISelectOption } from "@/types/select";
+import { getSelectDisplay } from "@/utils/getSelectDisplay";
+import { count } from "console";
+import FormError from "./FormError";
 
 interface ISelect {
-  options: { value: string; text: string }[];
+  options: ISelectOption[];
   containerClassName: string;
   onChange?: (value: string) => void;
   onBlur?: () => void;
   error?: string;
-  value: string;
+  initialValue?: string;
 }
 
 const Select: React.FC<ISelect> = ({
@@ -15,13 +19,13 @@ const Select: React.FC<ISelect> = ({
   containerClassName,
   onBlur,
   error,
-  value,
+  initialValue,
   onChange,
 }) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [clickCount, setClickCount] = useState(0);
-  const [selectValue, setSelectValue] = useState(value);
+  const [selectValue, setSelectValue] = useState(initialValue);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -41,28 +45,33 @@ const Select: React.FC<ISelect> = ({
   }, [clickCount]);
 
   useEffect(() => {
-    if (selectValue != "") {
+    if (selectValue != initialValue) {
       if (onChange) {
-        onChange(selectValue);
+        onChange(selectValue as string);
       }
       if (onBlur) {
         onBlur();
       }
-      setIsOpen(!isOpen);
+      setIsOpen(false);
     }
-    console.log({ selectValue, error });
   }, [selectValue, error]);
+
   return (
     <>
       <div className={`${containerClassName} relative z-10`}>
         <div
+          aria-description="Select box"
           onClick={() => {
             setIsOpen(!isOpen);
-            setClickCount(1);
+            setClickCount(clickCount + 1);
           }}
-          className="flex cursor-pointer items-center justify-between border border-grey-mid px-3 py-3"
+          className={`flex cursor-pointer items-center justify-between border ${
+            error?.length ? "form-field-error " : "border-grey-mid"
+          } px-3 py-3`}
         >
-          <p className="font-secondary">Select Option</p>
+          <p className="font-secondary">
+            {getSelectDisplay(options, selectValue) ?? "Select Option"}
+          </p>
           <SelectArrow
             className={` ${
               isOpen ? "rotate-180" : "rotate-0"
@@ -74,10 +83,20 @@ const Select: React.FC<ISelect> = ({
             ref={contentRef}
             className={` accordion-item-content max-h-0 overflow-hidden bg-grey-light`}
           >
+            <div
+              onClick={() => {
+                setSelectValue("");
+                setClickCount(clickCount + 1);
+              }}
+              className="border-b-2 cursor-pointer border-white px-3 py-3 font-secondary"
+            >
+              <p>Select Option</p>
+            </div>
             {options.map((option) => (
               <div
                 onClick={() => {
                   setSelectValue(option.value);
+                  setClickCount(clickCount + 1);
                 }}
                 key={option.value}
                 className="border-b-2 cursor-pointer border-white px-3 py-3 font-secondary"
@@ -88,7 +107,7 @@ const Select: React.FC<ISelect> = ({
           </div>
         </div>
       </div>
-      <p>{error}</p>
+      <FormError error={error as string} />
     </>
   );
 };
