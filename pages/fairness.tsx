@@ -9,6 +9,8 @@ import FormStepperBtn from "@/components/form-process/FormStepperBtn";
 import FormStepper from "@/components/form-process/FormStepper";
 import FairnessMobileOption from "@/components/form-process/FairnessMobileOption";
 import FairnessLgOption from "@/components/form-process/FairnessLgOption";
+import FairnessRangeSelector from "@/components/form-process/FairnessRangeSelector";
+import { useFormContext } from "@/contexts/FormContext";
 
 const options = [
   {
@@ -32,6 +34,7 @@ const options = [
         />
       </svg>
     ),
+    value: "very_unfair",
   },
   {
     name: "Unfair",
@@ -54,6 +57,7 @@ const options = [
         />
       </svg>
     ),
+    value: "unfair",
   },
   {
     name: "Not sure",
@@ -91,6 +95,7 @@ const options = [
         />
       </svg>
     ),
+    value: "not_sure",
   },
   {
     name: "Fair",
@@ -109,6 +114,7 @@ const options = [
         />
       </svg>
     ),
+    value: "fair",
   },
   {
     name: "Very Fair",
@@ -127,10 +133,12 @@ const options = [
         />
       </svg>
     ),
+    value: "very_fair",
   },
 ];
 
 const Fairness = () => {
+  const { formValues } = useFormContext();
   return (
     <BaseLayout title="Home">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
@@ -146,7 +154,7 @@ const Fairness = () => {
           className="hidden h-[187px] w-full lg:block"
         />
         <div className="px-4 pb-20 pt-8 lg:px-0 lg:py-8">
-          <h2 className="text-left font-primary text-2xl font-bold lg:w-[80%]">
+          <h2 className="text-left font-primary text-2xl font-bold lg:w-[80%] uppercase">
             IS HOW WE CURRENTLY RUN CUBE OF THE MONTH FAIR?
           </h2>
           <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
@@ -166,27 +174,24 @@ const Fairness = () => {
             </div>
 
             <div className="hidden lg:mx-20 lg:block">
-              {/* //TODO: fix slider to have background color */}
-              <input
-                type="range"
-                min="0"
-                max="5"
-                // onChange={(e) => setSliderIndex(e.target.value)}
-                className={"slider w-full"}
-                id="myRange"
-              />
+              <FairnessRangeSelector />
               <div className="mt-4 flex justify-between">
                 {options.map((option) => (
                   <FairnessLgOption
-                    key={option.name}
+                    key={option.value}
                     name={option.name}
                     svg={option.svg}
+                    value={option.value}
                   />
                 ))}
               </div>
             </div>
           </div>
-          <FormStepperBtn prevLink="/describe" nextLink="/review" />
+          <FormStepperBtn
+            disableNext={!formValues.process.length}
+            prevLink="/describe"
+            nextLink="/review"
+          />
         </div>
       </div>
       <FloatStepperBtns

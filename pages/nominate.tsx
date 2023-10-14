@@ -9,7 +9,8 @@ import FormStepper from "@/components/form-process/FormStepper";
 import Select from "@/components/shared/Select";
 import { useRouter } from "next/router";
 import Modal from "@/components/shared/Modal";
-import { useFormContext } from "@/contexts/TestContext";
+import { useFormContext } from "@/contexts/FormContext";
+import { getSelectDisplay } from "@/utils/getSelectDisplay";
 
 const Nominate = () => {
   const [unsavedChanges, setUnsavedChanges] = useState(true);
@@ -17,35 +18,39 @@ const Nominate = () => {
   const isAbortModalOpen = useRef(false);
   const [allowRouting, setAllowingRouting] = useState(false);
 
-  useEffect(() => {
-    const warningText =
-      "You have unsaved changes - are you sure you wish to leave this page?";
-    const handleWindowClose = (e: BeforeUnloadEvent) => {
-      if (!unsavedChanges) return;
-      e.preventDefault();
-      isAbortModalOpen.current = true;
-      // return;
-      return (e.returnValue = warningText);
-    };
-    const handleBrowseAway = () => {
-      if (!unsavedChanges) return;
-      isAbortModalOpen.current = true;
-      if (window.confirm(warningText)) return;
-      console.log(router.events);
-      router.events?.emit("routeChangeError", "Routing Aborted", "/nominate", {
-        shallow: false,
-      });
-      throw "routeChange aborted.";
-    };
-    window.addEventListener("beforeunload", handleWindowClose);
-    router.events.on("routeChangeStart", handleBrowseAway);
-    return () => {
-      window.removeEventListener("beforeunload", handleWindowClose);
-      router.events.off("routeChangeStart", handleBrowseAway);
-    };
-  }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
+  // useEffect(() => {
+  //   const warningText =
+  //     "You have unsaved changes - are you sure you wish to leave this page?";
+  //   const handleWindowClose = (e: BeforeUnloadEvent) => {
+  //     if (!unsavedChanges) return;
+  //     e.preventDefault();
+  //     isAbortModalOpen.current = true;
+  //     // return;
+  //     return (e.returnValue = warningText);
+  //   };
+  //   const handleBrowseAway = () => {
+  //     if (!unsavedChanges) return;
+  //     isAbortModalOpen.current = true;
+  //     if (window.confirm(warningText)) return;
+  //     console.log(router.events);
+  //     router.events?.emit("routeChangeError", "Routing Aborted", "/nominate", {
+  //       shallow: false,
+  //     });
+  //     throw "routeChange aborted.";
+  //   };
+  //   window.addEventListener("beforeunload", handleWindowClose);
+  //   router.events.on("routeChangeStart", handleBrowseAway);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleWindowClose);
+  //     router.events.off("routeChangeStart", handleBrowseAway);
+  //   };
+  // }, [unsavedChanges, allowRouting, isAbortModalOpen.current]);
 
   const { formValues, setValue, trigger, errors } = useFormContext();
+  const options = [
+    { value: "2", text: "Derek" },
+    { value: "1", text: "Oliver" },
+  ];
 
   return (
     <BaseLayout title="Home">
@@ -62,7 +67,7 @@ const Nominate = () => {
           className="hidden h-[187px] w-full lg:block"
         />
         <div className="px-4 pb-20 pt-8 lg:px-0 lg:py-8">
-          <h2 className="text-left font-primary text-2xl font-bold">
+          <h2 className="text-left font-primary text-2xl font-bold uppercase">
             I’d like to nominate...
           </h2>
           <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
@@ -76,20 +81,27 @@ const Nominate = () => {
             </p>
 
             <Select
-              options={[
-                { value: "2", text: "Derek" },
-                { value: "1", text: "Oliver" },
-              ]}
+              options={options}
               containerClassName="mt-3 lg:w-[60%]"
               onBlur={() => {
                 trigger("nominee_id");
               }}
               error={errors.nominee_id?.message}
-              value=""
-              // onChange={}
+              onChange={(val) => {
+                setValue("nominee_id", val);
+                setValue("cubeName", getSelectDisplay(options, val));
+              }}
+              initialValue={formValues.nominee_id}
             />
           </div>
-          <FormStepperBtn prevLink="/" nextLink="/describe" />
+          <FormStepperBtn
+            disableNext={
+              !formValues.nominee_id.length ||
+              (errors.nominee_id?.message?.length as number) > 0
+            }
+            prevLink="/"
+            nextLink="/describe"
+          />
         </div>
       </div>
       <FloatStepperBtns prevLink="/" nextLink="/describe" currentStep={1} />
