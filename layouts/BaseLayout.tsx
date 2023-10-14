@@ -10,6 +10,7 @@ interface IBaseLayout {
   title: string;
   addBg?: boolean;
   highBgTop?: boolean;
+  removeMainOverhidden?: boolean;
 }
 
 const BaseLayout: React.FC<IBaseLayout> = ({
@@ -17,6 +18,7 @@ const BaseLayout: React.FC<IBaseLayout> = ({
   title,
   addBg,
   highBgTop,
+  removeMainOverhidden,
 }) => {
   const pageTitle = `3 sided cube - ${title}`;
 
@@ -29,7 +31,7 @@ const BaseLayout: React.FC<IBaseLayout> = ({
       <main
         className={`lg:bg-primaryGradient  w-full pt-[5.3rem] lg:relative ${
           addBg && "bg-primaryGradient"
-        } `}
+        } ${!removeMainOverhidden ? "overflow-hidden" : ""}`}
       >
         <Image
           src={Bg}
