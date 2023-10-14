@@ -29,7 +29,9 @@ const Describe = () => {
         <div className="px-4 pb-20 pt-8 lg:px-0 lg:py-8">
           <h2 className="w-[80%] text-left font-primary uppercase text-2xl font-bold lg:w-full">
             I’d like to nominate{" "}
-            <span className="text-primary-pink">{formValues.cubeName}</span>{" "}
+            <span className="text-primary-pink">
+              {formValues.cubeName?.split(" ")[0]}
+            </span>{" "}
             because...
           </h2>
           <p className="mt-5 text-left font-secondary text-[#444444] lg:mt-5 lg:w-[75%]">
