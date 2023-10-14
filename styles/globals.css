@@ -24,6 +24,10 @@
   .diabled-link {
     @apply pointer-events-none cursor-default;
   }
+
+  .custom-select-option {
+    @apply border-b-2 cursor-pointer border-white px-3 py-3 font-secondary hover:bg-grey-mid;
+  }
 }
 
 .radioCtn {
