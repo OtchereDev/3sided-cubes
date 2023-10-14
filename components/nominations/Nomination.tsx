@@ -19,7 +19,6 @@ const NominationComponent: React.FC<INomination> = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const router = useRouter();
 
-  //TODO: add to challenge: The api has to nominee information
   const { nominees, deleteNomination, isDeleteLoading } =
     useNominationContext();
   const nominee = nominees?.find(
