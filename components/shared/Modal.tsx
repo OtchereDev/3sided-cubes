@@ -20,13 +20,6 @@ const Modal: React.FC<ISharedModal> = ({
   isLoading,
   onClick,
 }) => {
-  useEffect(() => {
-    if (isOpen) {
-      window.document.body.classList.add("overflow-hidden");
-    } else {
-      window.document.body.classList.remove("overflow-hidden");
-    }
-  }, [isOpen]);
   return isOpen ? (
     <div
       className="fixed inset-0 z-10 overflow-y-auto"
