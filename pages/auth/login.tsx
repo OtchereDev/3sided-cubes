@@ -16,13 +16,7 @@ const loginSchema = yup
       .string()
       .email("Email must be a valid email")
       .required("Email is required"),
-    password: yup
-      .string()
-      .matches(
-        /(?=^.{8,26}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-        "Please provide a strong password",
-      )
-      .required("Password is required"),
+    password: yup.string().required("Password is required"),
   })
   .required();
 
