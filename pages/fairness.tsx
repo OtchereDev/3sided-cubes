@@ -140,7 +140,7 @@ const options = [
 const Fairness = () => {
   const { formValues } = useFormContext();
   return (
-    <BaseLayout currentStep={3} title="Home">
+    <BaseLayout currentStep={3} title="Rate our process">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
         <FormStepper step={3} className="hidden lg:block" />
         <Image

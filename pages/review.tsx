@@ -30,7 +30,7 @@ const Review = () => {
   }, []);
 
   return (
-    <BaseLayout title="Home" highBgTop currentStep={4}>
+    <BaseLayout title="Review your nomination" highBgTop currentStep={4}>
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
         <FormStepper step={4} className="hidden lg:block" />
         <Image

@@ -13,7 +13,7 @@ import useLinkGeneration from "@/hooks/useLinkGeneration";
 const Submitted = () => {
   const { mode } = useLinkGeneration();
   return (
-    <BaseLayout title="Home">
+    <BaseLayout title="Submitted">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[800px]  lg:bg-white  lg:shadow-light">
         <Image
           src={ImgSm}

@@ -49,7 +49,7 @@ const Signup = () => {
     await signup(data);
   });
   return (
-    <AuthLayout>
+    <AuthLayout title="Sign up">
       <div className="relative mx-auto w-[92%] lg:w-[35%] ">
         <div className="w-full">
           <LogoLg className="mx-auto h-[60px] w-[150px] !text-black lg:h-[53px] lg:w-[200px]" />
