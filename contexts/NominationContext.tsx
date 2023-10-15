@@ -27,6 +27,7 @@ export interface INominationContext {
   >;
   deleteNomination: (id: string) => Promise<void>;
   isDeleteLoading: boolean;
+  isFetchingAllNomination: boolean;
 }
 
 export interface IFormContextProvider {
@@ -44,7 +45,11 @@ const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
     { retry: false, enabled: (jwt?.length as number) > 0 },
   );
 
-  const { data: nominationsList, refetch } = useCubeAcademyGetAllNominations(
+  const {
+    data: nominationsList,
+    refetch,
+    isLoading: isFetchingAllNomination,
+  } = useCubeAcademyGetAllNominations(
     {
       headers: generateHeader(jwt as string),
     },
@@ -79,6 +84,7 @@ const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
         refetch,
         deleteNomination: onDeletNomination,
         isDeleteLoading,
+        isFetchingAllNomination,
       }}
     >
       {children}

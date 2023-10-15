@@ -2,6 +2,7 @@ import FloatingCreateBtn from "@/components/form-process/FloatingCreateBtn";
 import Nomination from "@/components/nominations/Nomination";
 import NominationEmptyState from "@/components/nominations/NominationEmptyState";
 import Button from "@/components/shared/Button";
+import { Loader } from "@/components/shared/icons";
 import { useNominationContext } from "@/contexts/NominationContext";
 import BaseLayout from "@/layouts/BaseLayout";
 import { isClosedNomination } from "@/utils/isClosed";
@@ -9,7 +10,7 @@ import React, { useState } from "react";
 
 const MyNomination = () => {
   const [isClosed, setIsClosed] = useState(false);
-  const { nominations } = useNominationContext();
+  const { nominations, isFetchingAllNomination } = useNominationContext();
   const closedNomination =
     nominations?.filter((nomination) =>
       isClosedNomination(nomination.closing_date as string),
@@ -21,7 +22,11 @@ const MyNomination = () => {
   return (
     <BaseLayout addBg title="My nomination">
       <div className="relative lg:mx-auto lg:w-[1216px]">
-        {nominations?.length ? (
+        {isFetchingAllNomination ? (
+          <div className="flex h-[200px] items-center justify-center lg:h-[400px]">
+            <Loader className="mx-auto my-auto animate-spin text-black" />
+          </div>
+        ) : nominations?.length ? (
           <>
             <div className="bg-primaryGradient px-6 py-7 lg:bg-none lg:px-0">
               <h3 className="mb-3 text-2xl font-bold leading-[38px] lg:text-[32px]">
