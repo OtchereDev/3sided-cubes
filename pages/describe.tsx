@@ -13,7 +13,7 @@ const Describe = () => {
   const { formValues, register, errors, setValue } = useFormContext();
 
   return (
-    <BaseLayout currentStep={2} title="Home">
+    <BaseLayout currentStep={2} title="Tell us why">
       <div className="lg:mx-auto lg:mb-20 lg:mt-10 lg:w-[880px]  lg:bg-white lg:px-10 lg:py-5  lg:shadow-light">
         <FormStepper step={2} className="hidden lg:block" />
         <Image
