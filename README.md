@@ -23,7 +23,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Extra Technology
 
-Localstorage and Cookie
+Localstorage and Cookie (if it is considered at technology )
 
 ## Extra Features
 
@@ -31,6 +31,7 @@ Localstorage and Cookie
 2. I add animation to the social links
 3. I add the toast card
 4. I add the progressbar to signify to the user the page loading progress
+5. I add the log out functionality
 
 ## If you had more time, what else would you implement?
 
