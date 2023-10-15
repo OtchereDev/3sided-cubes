@@ -1,6 +1,6 @@
 import FloatStepperBtns from "@/components/form-process/FloatStepperBtns";
 import BaseLayout from "@/layouts/BaseLayout";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ImgSm from "@/assets/images/sm/img-2.png";
 import ImgLg from "@/assets/images/lg/img-2.png";
@@ -16,8 +16,12 @@ import { useNominationContext } from "@/contexts/NominationContext";
 const Nominate = () => {
   const [showModal, setShowModal] = useState(false);
   const { nominees } = useNominationContext();
+  const { formValues, setValue, trigger, errors, clearDataFromLocalStorage } =
+    useFormContext();
 
-  const [isDirtyState, setIsDirtyState] = useState(true);
+  const [isDirtyState, setIsDirtyState] = useState(
+    formValues.nominee_id.length > 0,
+  );
 
   const navigate = useNavigationObserver({
     shouldStopNavigation: isDirtyState,
@@ -26,12 +30,16 @@ const Nominate = () => {
     },
   });
 
-  const { formValues, setValue, trigger, errors, clearDataFromLocalStorage } =
-    useFormContext();
   const options = nominees?.map((nominee) => ({
     value: nominee.nominee_id as string,
     text: nominee.first_name + " " + nominee.last_name,
   }));
+
+  useEffect(() => {
+    if (formValues.nominee_id.length > 0) {
+      setIsDirtyState(true);
+    }
+  }, [formValues]);
 
   return (
     <BaseLayout currentStep={1} removeMainOverhidden title="Home">

@@ -41,7 +41,7 @@ import {
   FORM_LOCALSTORAGE_KEY,
 } from "@/constants/storageKeys";
 import { generateHeader } from "@/utils/apiUtils";
-import { useCookie } from "react-use";
+import Cookies from "js-cookie";
 
 export type FormValues = {
   nominee_id: string;
@@ -85,7 +85,7 @@ const NomineeSchema = yup
 export const FormContext = createContext<IFormContext | null>(null);
 
 const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
-  const [jwt] = useCookie(AUTH_LOCALSTORAGE_KEY);
+  const jwt = Cookies.get(AUTH_LOCALSTORAGE_KEY);
   const {
     handleSubmit,
     trigger,
@@ -207,8 +207,13 @@ const FormProvider: React.FC<IFormContextProvider> = ({ children }) => {
       process: "",
       cubeName: "",
     });
-  const clearDataFromLocalStorage = () =>
+  const clearDataFromLocalStorage = () => {
+    setValue("cubeName", "");
+    setValue("nominee_id", "");
+    setValue("process", "");
+    setValue("reason", "");
     clearFromLocalStorage(FORM_LOCALSTORAGE_KEY);
+  };
 
   useEffect(() => {
     const data = getDataFromLocalStorage();

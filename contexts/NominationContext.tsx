@@ -13,8 +13,8 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { generateHeader } from "@/utils/apiUtils";
-import { useCookie } from "react-use";
 import { AUTH_LOCALSTORAGE_KEY } from "@/constants/storageKeys";
+import Cookies from "js-cookie";
 
 export interface INominationContext {
   nominees: Nominee["data"];
@@ -36,7 +36,7 @@ export interface IFormContextProvider {
 export const NominationContext = createContext<INominationContext | null>(null);
 
 const NominationProvider: React.FC<IFormContextProvider> = ({ children }) => {
-  const [jwt] = useCookie(AUTH_LOCALSTORAGE_KEY);
+  const jwt = Cookies.get(AUTH_LOCALSTORAGE_KEY);
   const { data } = useCubeAcademyRetrieveNomineeList(
     {
       headers: generateHeader(jwt as string),
