@@ -30,7 +30,7 @@ const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
   dispatchState,
 }) => {
   const { returnTo, generateLink } = useLinkGeneration();
-  const { setDataToLocalStorage, clearDataFromLocalStorage } = useFormContext();
+  const { setDataToLocalStorage } = useFormContext();
 
   return (
     <div className="fixed bottom-0 left-0 z-10 flex w-full items-center justify-center gap-4 bg-white py-5 shadow-strong lg:hidden">
@@ -69,7 +69,6 @@ const FloatStepperBtns: React.FC<IFloatStepperBtns> = ({
             disabled={disableNext}
             color="text-white"
             className={`w-full  font-primary font-bold`}
-            onClick={clearDataFromLocalStorage}
           />
         </form>
       ) : (

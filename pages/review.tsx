@@ -24,7 +24,6 @@ const Review = () => {
 
   const { mode } = useLinkGeneration();
   const { refetch } = useNominationContext();
-  const { clearDataFromLocalStorage } = useFormContext();
 
   useEffect(() => {
     trigger();
