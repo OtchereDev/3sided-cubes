@@ -73,7 +73,7 @@ const AuthProvider: React.FC<IFormContextProvider> = ({ children }) => {
   const logout = () => {
     deleteCookie();
     toast.success("You have successfully logged out 😄");
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   const checkedLoggedInUser = () => {
