@@ -23,7 +23,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Extra Technology
 
-Localstorage and Cookie (if it is considered at technology )
+Localstorage and Cookie (if they are considered technologies )
 
 ## Extra Features
 
