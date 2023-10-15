@@ -2,7 +2,13 @@ Deployed Instance: [Deployed on Vercel](https://3sided-cubes.vercel.app)
 
 ## Getting Started
 
-First, run the development server:
+1. Install the packages
+
+```bash
+npm install
+```
+
+2. run the development server:
 
 ```bash
 npm run dev
